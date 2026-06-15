@@ -13,9 +13,19 @@
   {
     "imports": {
       "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
-      "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+      "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/",
+      "gsap": "https://esm.sh/gsap@3.12.5",
+      "gsap/ScrollTrigger": "https://esm.sh/gsap@3.12.5/ScrollTrigger",
+      "gsap/Flip": "https://esm.sh/gsap@3.12.5/Flip",
+      "lenis": "https://esm.sh/lenis@1.1.14"
     }
   }
+  </script>
+  <script>
+    // Évite le flash de contenu : masque les éléments animés uniquement si les animations sont permises.
+    if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      document.documentElement.classList.add("anim");
+    }
   </script>
 </head>
 <body>
@@ -63,23 +73,21 @@
   </div>
 
   <main>
-    <!-- HERO -->
+    <!-- HERO plein écran (portrait + shader liquide) -->
     <section class="hero" id="hero">
-      <div class="hero__bg">
-        <div class="hero__blob hero__blob--1"></div>
-        <div class="hero__blob hero__blob--2"></div>
-        <div class="hero__grid"></div>
-      </div>
+      <div class="hero__canvas" id="heroCanvas"></div>
+      <img class="hero__fallback" src="portrait.png" alt="Raphaël Dumas Levillain, designer graphique" />
+      <div class="hero__veil"></div>
 
-      <div class="hero__content">
-        <p class="hero__intro reveal-line"><span>Designer graphique · Branding · Digital · UX/UI</span></p>
+      <div class="hero__overlay">
+        <p class="hero__kicker" data-side="left">Designer graphique · Branding · Digital · UX/UI</p>
 
         <h1 class="hero__name">
-          <span class="hero__name-line"><span class="char-wrap">Raphaël</span></span>
-          <span class="hero__name-line hero__name-line--outline"><span class="char-wrap">Dumas Levillain</span></span>
+          <span class="hero__name-line" data-side="left">Raphaël</span>
+          <span class="hero__name-line hero__name-line--outline" data-side="right">Dumas Levillain</span>
         </h1>
 
-        <div class="hero__rotator">
+        <div class="hero__rotator" data-side="left">
           <span class="hero__rotator-static">Je transforme</span>
           <span class="hero__rotator-words" id="rotator">
             <span>des idées</span>
@@ -90,9 +98,15 @@
           <span class="hero__rotator-static">en expériences mémorables.</span>
         </div>
 
-        <p class="hero__subline reveal-up">5 ans d'alternance, une vraie culture graphique et la conviction qu'on n'a jamais fini d'apprendre. Assez sûr de moi pour livrer, assez curieux pour progresser. Et, soyons honnêtes, <strong>disponible pour une alternance</strong>.</p>
+        <p class="hero__subline" data-side="right">5 ans d'alternance, une vraie culture graphique et la conviction qu'on n'a jamais fini d'apprendre. Assez sûr de moi pour livrer, assez curieux pour progresser. Et, soyons honnêtes, <strong>disponible pour une alternance</strong>.</p>
 
-        <div class="hero__actions reveal-up">
+        <div class="hero__meta">
+          <span class="hero__meta-item" data-side="left">5 ans d'alternance</span>
+          <span class="hero__meta-item" data-side="right">Vision 360°</span>
+          <span class="hero__meta-item hero__meta-item--hl" data-side="left">Disponible pour une alternance</span>
+        </div>
+
+        <div class="hero__actions" data-side="left">
           <a href="#projects" class="btn btn--primary magnetic" data-cursor="hover">
             <span>Découvrir mes projets</span>
             <svg viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -100,19 +114,6 @@
           <a href="#contact" class="btn btn--ghost magnetic" data-cursor="hover">
             <span>Me contacter</span>
           </a>
-        </div>
-      </div>
-
-      <div class="hero__portrait reveal-portrait">
-        <div class="hero__portrait-frame">
-          <div class="hero__portrait-img" id="portrait">
-            <img class="hero__portrait-photo" src="portrait.png" alt="Raphaël Dumas Levillain, designer graphique" />
-            <span class="hero__portrait-fallback">
-              <span class="hero__portrait-initials">RDL</span>
-              <span class="hero__portrait-note">Déposez « portrait.png » dans le dossier</span>
-            </span>
-          </div>
-          <span class="hero__portrait-badge">5 ans<br><small>d'alternance</small></span>
         </div>
       </div>
 
@@ -129,6 +130,49 @@
         <span>Branding</span><span>✦</span><span>Packaging</span><span>✦</span><span>Communication visuelle</span><span>✦</span><span>Design Digital</span><span>✦</span><span>UX / UI</span><span>✦</span><span>Direction artistique</span><span>✦</span><span>Motion Design</span><span>✦</span>
       </div>
     </div>
+
+    <!-- BOÎTE 3D "MOKI!" (projet phare) -->
+    <section class="box" id="box">
+      <div class="section__head">
+        <span class="section__tag">01 · Projet phare</span>
+        <h2 class="section__title reveal-words">Moki!, la boîte de macarons qui sert de CV.</h2>
+      </div>
+
+      <div class="box__grid">
+        <div class="box__viewer" data-parallax="40">
+          <div class="box-stage" id="boxStage">
+            <div class="box-loader" id="boxLoader"><span></span><span></span><span></span></div>
+          </div>
+          <span class="box-hint">
+            <svg viewBox="0 0 24 24" fill="none" width="16" height="16"><path d="M4 12a8 8 0 1 1 8 8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M12 20l-3-2m3 2l3-2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Cliquez et glissez pour tourner · molette pour zoomer
+          </span>
+        </div>
+        <div class="box__info">
+          <span class="box__badge">Projet personnel</span>
+          <div class="box__detail reveal-up">
+            <p><strong>Contexte.</strong> J'ai imaginé <strong>Moki!</strong>, une fausse marque de macarons dont le packaging fait office de CV. Je remets cette boîte aux recruteurs en main propre.</p>
+            <p><strong>Objectifs.</strong> Sortir du CV papier classique, démontrer ma maîtrise du branding et du packaging, et créer un objet mémorable qui raconte mon parcours.</p>
+            <p><strong>Réalisations.</strong> Identité de marque, design du packaging et déclinaison de chaque face de la boîte en support de présentation (parcours, compétences, contact).</p>
+            <p><strong>Compétences.</strong> Branding · Packaging · Concept créatif · Direction artistique.</p>
+          </div>
+          <p class="box__tip reveal-up">Tournez la boîte 3D pour explorer chaque face.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- DECK PROJETS -->
+    <section class="deck" id="projects">
+      <div class="deck__viewport">
+        <div class="section__head deck__head">
+          <span class="section__tag">02 · Projets</span>
+          <h2 class="section__title reveal-words">Ne partez pas, ça ne fait que commencer.</h2>
+          <p class="deck__hint reveal-up">Faites défiler pour étaler le jeu, puis cliquez une carte pour l'ouvrir.</p>
+        </div>
+        <div class="deck__stage" id="deckStage"></div>
+      </div>
+    </section>
+    <div class="detail-layer" id="detailLayer" aria-hidden="true"></div>
 
     <!-- KEY FIGURES -->
     <section class="stats" id="stats">
@@ -175,143 +219,6 @@
             <li class="about__pillar reveal-up" data-cursor="hover"><span>↗</span> Passionné par l'innovation & l'IA</li>
           </ul>
         </div>
-      </div>
-    </section>
-
-    <!-- PROJECTS -->
-    <section class="projects" id="projects">
-      <div class="section__head">
-        <span class="section__tag">02 · Projets</span>
-        <h2 class="section__title reveal-words">Des études de cas, du print au digital.</h2>
-      </div>
-
-      <!-- FLAGSHIP : MOKI! 3D BOX -->
-      <article class="flagship reveal-up">
-        <div class="flagship__viewer">
-          <div class="moki-stage" id="mokiStage">
-            <div class="moki-loader" id="mokiLoader"><span></span><span></span><span></span></div>
-          </div>
-          <span class="moki-hint">
-            <svg viewBox="0 0 24 24" fill="none" width="16" height="16"><path d="M4 12a8 8 0 1 1 8 8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M12 20l-3-2m3 2l3-2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            Cliquez et glissez pour tourner · molette pour zoomer
-          </span>
-        </div>
-        <div class="flagship__info">
-          <span class="flagship__badge">Projet phare · Projet personnel</span>
-          <h3 class="flagship__title">Moki!, la boîte de macarons qui sert de CV</h3>
-          <p class="project__tags">Branding · Packaging · Concept · Direction artistique · 3D</p>
-          <div class="flagship__detail">
-            <p><strong>Contexte.</strong> Un projet personnel et promotionnel : j'ai imaginé <strong>Moki!</strong>, une fausse marque de macarons, dont le packaging fait office de CV. Je remets cette boîte aux recruteurs en main propre.</p>
-            <p><strong>Objectifs.</strong> Sortir du CV papier classique, démontrer ma maîtrise du branding et du packaging, et créer un objet mémorable qui raconte mon parcours.</p>
-            <p><strong>Réalisations.</strong> Création de l'identité de marque, design du packaging et déclinaison de chaque face de la boîte en support de présentation (parcours, compétences, contact).</p>
-            <p><strong>Résultats.</strong> Un objet de communication unique, tangible et marquant, un CV que l'on garde et que l'on partage.</p>
-            <p><strong>Compétences.</strong> Branding · Packaging · Concept créatif · Direction artistique.</p>
-          </div>
-          <p class="flagship__tip">Tournez la boîte 3D pour explorer chaque face.</p>
-        </div>
-      </article>
-
-      <!-- BANNER -->
-      <div class="projects__banner">
-        <h2 class="projects__banner-title reveal-up">Ne partez pas, ça ne fait que commencer&nbsp;!</h2>
-        <p class="projects__banner-sub reveal-up">La boîte n'était qu'une mise en bouche. Place aux projets bien réels, livrés en alternance, du covering de compétition au rebranding complet. (Spoiler&nbsp;: oui, je suis toujours disponible pour une alternance.)</p>
-      </div>
-
-      <div class="projects__list">
-        <!-- ASTRANOVA -->
-        <article class="project reveal-up" data-cursor="view">
-          <div class="project__media project__media--img">
-            <img src="astranova.jpg" alt="Stand Astranova" loading="lazy" />
-          </div>
-          <div class="project__info">
-            <span class="project__index">01</span>
-            <h3 class="project__title">Astranova · Stand d'exposition</h3>
-            <p class="project__tags">Communication événementielle · Stand · Scénographie</p>
-            <div class="project__detail">
-              <p><strong>Contexte.</strong> Conception d'un stand d'exposition pour Astranova.</p>
-              <p><strong>Objectifs.</strong> Créer un espace qui attire l'œil, raconte la marque et donne envie de s'arrêter.</p>
-              <p><strong>Réalisations.</strong> Conception du stand, scénographie et supports de communication événementielle.</p>
-              <p><strong>Résultats.</strong> Un stand cohérent et marquant, fidèle à l'identité de la marque.</p>
-              <p><strong>Compétences.</strong> Événementiel · Scénographie · Direction artistique · Production.</p>
-            </div>
-          </div>
-        </article>
-
-        <!-- STAND MODULAIRE : BRÉARD × GUERLAIN -->
-        <article class="project reveal-up" data-cursor="view">
-          <div class="project__media project__media--img">
-            <img src="stand.png" alt="Stand modulaire Bréard × Guerlain" loading="lazy" />
-          </div>
-          <div class="project__info">
-            <span class="project__index">02</span>
-            <h3 class="project__title">Stand modulaire · Bréard × Guerlain</h3>
-            <p class="project__tags">Communication événementielle · Stand modulaire · Univers premium</p>
-            <div class="project__detail">
-              <p><strong>Contexte.</strong> Conception d'un stand d'exposition modulaire, en collaboration avec le Groupe Bréard, pour la maison Guerlain.</p>
-              <p><strong>Objectifs.</strong> Traduire un univers premium dans un espace événementiel immersif, flexible et réutilisable.</p>
-              <p><strong>Réalisations.</strong> Conception du stand modulaire, scénographie et supports événementiels haut de gamme.</p>
-              <p><strong>Résultats.</strong> Une expérience de marque élégante, adaptable et fidèle aux codes du luxe.</p>
-              <p><strong>Compétences.</strong> Événementiel · Stand modulaire · Scénographie · Direction artistique premium.</p>
-            </div>
-          </div>
-        </article>
-
-        <!-- STIHL -->
-        <article class="project reveal-up" data-cursor="view">
-          <div class="project__media project__media--img">
-            <img src="stihl.jpg" alt="STIHL · PLV nationale" loading="lazy" />
-          </div>
-          <div class="project__info">
-            <span class="project__index">03</span>
-            <h3 class="project__title">STIHL · PLV nationale</h3>
-            <p class="project__tags">PLV · Déploiement national · 400+ points de vente</p>
-            <div class="project__detail">
-              <p><strong>Contexte.</strong> Conception et déploiement d'une PLV à l'échelle nationale.</p>
-              <p><strong>Objectifs.</strong> Garantir l'impact et la cohérence de la marque dans chaque point de vente.</p>
-              <p><strong>Réalisations.</strong> Déploiement dans plus de <strong>400 points de vente</strong>. Oui, 400 (j'ai compté). (Ce qui me laisse largement le temps d'être <strong>disponible pour une alternance</strong>.)</p>
-              <p><strong>Résultats.</strong> Une présence de marque homogène et un message lisible partout en France.</p>
-              <p><strong>Compétences.</strong> PLV · Déploiement à grande échelle · Production.</p>
-            </div>
-          </div>
-        </article>
-
-        <!-- RENAULT LABEDA : COVERING CLIO CUP 2026 -->
-        <article class="project reveal-up" data-cursor="view">
-          <div class="project__media project__media--img">
-            <img src="covering.jpg" alt="Covering Clio Cup 2026, Garage Renault Labeda" loading="lazy" />
-          </div>
-          <div class="project__info">
-            <span class="project__index">04</span>
-            <h3 class="project__title">Renault Labeda · Covering Clio Cup 2026</h3>
-            <p class="project__tags">Conception graphique · Covering · Préparation technique · Production</p>
-            <div class="project__detail">
-              <p><strong>Contexte.</strong> Design du covering de la voiture de course du garage Renault Labeda pour la <strong>Clio Cup 2026</strong>.</p>
-              <p><strong>Objectifs.</strong> Concevoir un habillage graphique percutant, lisible en piste et techniquement réalisable.</p>
-              <p><strong>Réalisations.</strong> Conception graphique, intégration des partenaires, préparation technique des fichiers et suivi de production.</p>
-              <p><strong>Résultats.</strong> Un covering dynamique et maîtrisé, conforme aux contraintes de pose et de fabrication.</p>
-              <p><strong>Compétences.</strong> Conception · Covering · Prépresse · Suivi de production.</p>
-            </div>
-          </div>
-        </article>
-
-        <!-- IZAKAYA : REBRANDING & SITE WEB -->
-        <article class="project reveal-up" data-cursor="view">
-          <div class="project__media project__media--img">
-            <img src="site.png" alt="Site web du restaurant Izakaya, Le Petit Quevilly" loading="lazy" />
-          </div>
-          <div class="project__info">
-            <span class="project__index">05</span>
-            <h3 class="project__title">Izakaya · Rebranding &amp; site web</h3>
-            <p class="project__tags">Branding · Design digital · UX/UI · Site web</p>
-            <div class="project__detail">
-              <p><strong>Contexte.</strong> Rebranding total du restaurant <strong>Izakaya</strong> au Petit Quevilly et design de son nouveau site web.</p>
-              <p><strong>Objectifs.</strong> Moderniser l'image de marque et offrir une expérience digitale à la hauteur de l'établissement.</p>
-              <p><strong>Réalisations.</strong> Nouvelle identité visuelle, déclinaison sur les supports et conception du site web (UX/UI).</p>
-              <p><strong>Résultats.</strong> Un univers de marque distinctif et cohérent, de la table à l'écran.</p>
-              <p><strong>Compétences.</strong> Branding · UX/UI · Design digital · Direction artistique.</p>
-            </div>
-          </div>
-        </article>
       </div>
     </section>
 
@@ -469,7 +376,14 @@
     </section>
   </main>
 
-  <script src="script.js"></script>
-  <script type="module" src="moki.js"></script>
+  <script type="module" src="main.js"></script>
+  <script>
+    // Filet de sécurité : si les modules/CDN n'ont pas pu s'initialiser, on révèle quand même le contenu.
+    setTimeout(function () {
+      if (!document.documentElement.classList.contains("app-ready")) {
+        document.documentElement.classList.remove("anim");
+      }
+    }, 6000);
+  </script>
 </body>
 </html>

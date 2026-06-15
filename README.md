@@ -69,11 +69,21 @@ rotation au clic-glisser, zoom à la molette, pas d'auto-rotation.
   utilisent des dégradés ; remplaçables par de vraies images sur le même modèle
   que les projets ci-dessus.
 
-## Structure
+## Structure (modules)
 
 ```
-index.html    Structure et contenu (+ importmap Three.js)
-styles.css    Design, mise en page, animations
-script.js     Curseur, compteurs, reveals, accordéon projets, parallaxe
-moki.js       Boîte de macarons 3D (Three.js + OrbitControls)
+index.html         Structure + importmap (Three.js, GSAP, ScrollTrigger, Flip, Lenis)
+styles.css         Design, mise en page, animations
+main.js            Orchestrateur : Lenis (smooth scroll) + GSAP + UI (curseur, nav, compteurs)
+hero-shader.js     Portrait plein écran, effet liquide WebGL (Three.js, shader GLSL)
+box.js             Boîte de macarons 3D Moki! (Three.js + OrbitControls)
+projects-deck.js   Deck de cartes : dépliage au scroll (pin/scrub) + plein écran via GSAP Flip
+scroll-reveals.js  Reveals au scroll (GSAP ScrollTrigger), reveal du hero, parallax, progression
 ```
+
+### Réglages rapides
+
+- **Effet liquide du portrait** : constantes `FREQ`, `SPEED`, `DECAY`, `AMPLITUDE`,
+  `INTENSITE` et le dégradé `GRAD` en haut de `hero-shader.js`.
+- **Orientation des faces de la boîte** : objet `FACES` en haut de `box.js`.
+- **Projets du deck** : tableau `projects` en haut de `projects-deck.js`.
