@@ -18,33 +18,21 @@ export function initScrollReveals({ gsap, ScrollTrigger, reduce }) {
   // En reduced-motion : tout reste visible, on ne touche à rien d'autre.
   if (reduce) return;
 
-  /* ---- HERO : intro depuis les côtés (joue à l'arrivée) + parallax léger ---- */
+  /* ---- HERO : au départ seule la photo, les infos arrivent AU SCROLL ----
+     Section épinglée + scrub. fromTo (destination explicite) pour révéler vraiment. */
   const hero = document.querySelector(".hero");
   if (hero) {
     const left = hero.querySelectorAll('[data-side="left"]');
     const right = hero.querySelectorAll('[data-side="right"]');
     const canvas = document.getElementById("heroCanvas");
 
-    // parallax doux du portrait pendant le scroll (sans épingler la page)
-    if (canvas) {
-      gsap.to(canvas, {
-        yPercent: 12,
-        ease: "none",
-        scrollTrigger: { trigger: hero, start: "top top", end: "bottom top", scrub: true },
-      });
-    }
-    // l'indicateur de scroll s'efface quand on descend
-    gsap.to(".hero__scroll", {
-      autoAlpha: 0,
-      ease: "none",
-      scrollTrigger: { trigger: hero, start: "top top", end: "20% top", scrub: true },
+    const tl = gsap.timeline({
+      scrollTrigger: { trigger: hero, start: "top top", end: "+=130%", pin: true, scrub: 1, anticipatePin: 1 },
     });
-
-    // intro : les textes entrent depuis les côtés, après le préchargeur
-    const intro = gsap.timeline({ delay: 1.15, defaults: { ease: "expo.out", duration: 1.1 } });
-    intro
-      .fromTo(left, { x: -120, autoAlpha: 0 }, { x: 0, autoAlpha: 1, stagger: 0.12 }, 0)
-      .fromTo(right, { x: 120, autoAlpha: 0 }, { x: 0, autoAlpha: 1, stagger: 0.12 }, 0.1);
+    if (canvas) tl.fromTo(canvas, { scale: 1 }, { scale: 1.12, ease: "none" }, 0);
+    tl.to(".hero__scroll", { autoAlpha: 0, duration: 0.12 }, 0);
+    tl.fromTo(left, { x: -120, autoAlpha: 0 }, { x: 0, autoAlpha: 1, ease: "expo.out", duration: 0.5, stagger: 0.1 }, 0.12);
+    tl.fromTo(right, { x: 120, autoAlpha: 0 }, { x: 0, autoAlpha: 1, ease: "expo.out", duration: 0.5, stagger: 0.1 }, 0.18);
   }
 
   /* ---- Titres mot par mot (.reveal-words) ---- */
@@ -78,7 +66,26 @@ export function initScrollReveals({ gsap, ScrollTrigger, reduce }) {
   ScrollTrigger.batch(ups, {
     start: "top 90%",
     onEnter: (batch) =>
-      gsap.to(batch, { y: 0, autoAlpha: 1, duration: 1.1, ease: "power4.out", stagger: 0.1, overwrite: true }),
+      gsap.to(batch, {
+        y: 0, autoAlpha: 1, duration: 1.1, ease: "power4.out", stagger: 0.1, overwrite: true,
+        onComplete: () => gsap.set(batch, { clearProps: "transform" }), // libère le transform (survol CSS)
+      }),
+  });
+
+  /* ---- Apparitions directionnelles : .r-up / .r-down / .r-left / .r-right ---- */
+  const DIRS = { up: { y: 80 }, down: { y: -80 }, left: { x: -110 }, right: { x: 110 } };
+  Object.keys(DIRS).forEach((dir) => {
+    gsap.utils.toArray(".r-" + dir).forEach((el) => {
+      gsap.fromTo(
+        el,
+        { ...DIRS[dir], autoAlpha: 0 },
+        {
+          x: 0, y: 0, autoAlpha: 1, duration: 1.1, ease: "power4.out",
+          scrollTrigger: { trigger: el, start: "top 88%", once: true },
+          onComplete: () => gsap.set(el, { clearProps: "transform" }),
+        }
+      );
+    });
   });
 
   /* ---- Parallax léger ([data-parallax]) ---- */
