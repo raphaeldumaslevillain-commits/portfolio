@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Raphaël Dumas Levillain — Designer graphique spécialisé en branding, packaging, communication visuelle, design digital et UX/UI. 5 ans d'expérience en alternance." />
+  <title>Raphaël Dumas Levillain — Designer Graphique</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Syne:wght@600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- Custom cursor -->
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-dot" id="cursorDot"></div>
+
+  <!-- Progress bar -->
+  <div class="scroll-progress" id="scrollProgress"></div>
+
+  <!-- Preloader -->
+  <div class="preloader" id="preloader">
+    <div class="preloader__inner">
+      <span class="preloader__name">RDL</span>
+      <div class="preloader__bar"><span></span></div>
+    </div>
+  </div>
+
+  <!-- Navigation -->
+  <header class="nav" id="nav">
+    <a href="#hero" class="nav__logo" data-cursor="hover">
+      <span>RDL</span>
+    </a>
+    <nav class="nav__links">
+      <a href="#about" data-cursor="hover">À propos</a>
+      <a href="#projects" data-cursor="hover">Projets</a>
+      <a href="#skills" data-cursor="hover">Compétences</a>
+      <a href="#ai" data-cursor="hover">IA</a>
+      <a href="#journey" data-cursor="hover">Parcours</a>
+    </nav>
+    <a href="#contact" class="nav__cta" data-cursor="hover">Me contacter</a>
+    <button class="nav__burger" id="burger" aria-label="Menu">
+      <span></span><span></span>
+    </button>
+  </header>
+
+  <!-- Mobile menu -->
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#about">À propos</a>
+    <a href="#projects">Projets</a>
+    <a href="#skills">Compétences</a>
+    <a href="#ai">IA</a>
+    <a href="#journey">Parcours</a>
+    <a href="#contact">Contact</a>
+  </div>
+
+  <main>
+    <!-- HERO -->
+    <section class="hero" id="hero">
+      <div class="hero__bg">
+        <div class="hero__blob hero__blob--1"></div>
+        <div class="hero__blob hero__blob--2"></div>
+        <div class="hero__grid"></div>
+      </div>
+
+      <div class="hero__content">
+        <p class="hero__intro reveal-line"><span>Designer graphique · Branding · Digital · UX/UI</span></p>
+
+        <h1 class="hero__name">
+          <span class="hero__name-line"><span class="char-wrap">Raphaël</span></span>
+          <span class="hero__name-line hero__name-line--outline"><span class="char-wrap">Dumas Levillain</span></span>
+        </h1>
+
+        <div class="hero__rotator">
+          <span class="hero__rotator-static">Je transforme</span>
+          <span class="hero__rotator-words" id="rotator">
+            <span>des idées</span>
+            <span>des marques</span>
+            <span>des espaces</span>
+            <span>des interfaces</span>
+          </span>
+          <span class="hero__rotator-static">en expériences mémorables.</span>
+        </div>
+
+        <p class="hero__tagline reveal-up">« Transformer des idées en expériences visuelles mémorables. »</p>
+
+        <div class="hero__actions reveal-up">
+          <a href="#projects" class="btn btn--primary magnetic" data-cursor="hover">
+            <span>Découvrir mes projets</span>
+            <svg viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+          <a href="#contact" class="btn btn--ghost magnetic" data-cursor="hover">
+            <span>Me contacter</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="hero__portrait reveal-portrait">
+        <div class="hero__portrait-frame">
+          <div class="hero__portrait-img" id="portrait">
+            <span class="hero__portrait-initials">RDL</span>
+            <span class="hero__portrait-note">Remplacez par votre photo portrait</span>
+          </div>
+          <span class="hero__portrait-badge">5 ans<br><small>d'alternance</small></span>
+        </div>
+      </div>
+
+      <div class="hero__scroll">
+        <span>Scroll</span>
+        <div class="hero__scroll-line"></div>
+      </div>
+    </section>
+
+    <!-- MARQUEE -->
+    <div class="marquee" aria-hidden="true">
+      <div class="marquee__track">
+        <span>Branding</span><span>✦</span><span>Packaging</span><span>✦</span><span>Communication visuelle</span><span>✦</span><span>Design Digital</span><span>✦</span><span>UX / UI</span><span>✦</span><span>Direction artistique</span><span>✦</span><span>Motion Design</span><span>✦</span>
+        <span>Branding</span><span>✦</span><span>Packaging</span><span>✦</span><span>Communication visuelle</span><span>✦</span><span>Design Digital</span><span>✦</span><span>UX / UI</span><span>✦</span><span>Direction artistique</span><span>✦</span><span>Motion Design</span><span>✦</span>
+      </div>
+    </div>
+
+    <!-- KEY FIGURES -->
+    <section class="stats" id="stats">
+      <div class="stat reveal-up">
+        <span class="stat__num" data-count="5">0</span>
+        <span class="stat__suffix">ans</span>
+        <p class="stat__label">d'expérience en alternance</p>
+      </div>
+      <div class="stat reveal-up">
+        <span class="stat__num" data-count="20">0</span>
+        <span class="stat__suffix">+</span>
+        <p class="stat__label">projets professionnels réalisés</p>
+      </div>
+      <div class="stat reveal-up">
+        <span class="stat__num">360°</span>
+        <p class="stat__label">vision de la chaîne graphique</p>
+      </div>
+      <div class="stat reveal-up">
+        <span class="stat__num stat__num--small">Print · Digital<br>Packaging · UX/UI</span>
+        <p class="stat__label">domaines d'expertise</p>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section class="about" id="about">
+      <div class="section__head">
+        <span class="section__tag">01 — À propos</span>
+        <h2 class="section__title reveal-words">Un créatif qui pense l'image autant que la technique.</h2>
+      </div>
+
+      <div class="about__grid">
+        <div class="about__text">
+          <p class="reveal-up">Mon parcours commence dans l'univers de <strong>l'impression et de la production graphique</strong>, là où chaque détail technique compte. Cette base m'a donné une compréhension rare de la chaîne complète, de la conception jusqu'à la réalisation.</p>
+          <p class="reveal-up">J'ai ensuite élargi mon expertise vers le <strong>branding</strong>, le <strong>packaging</strong>, la <strong>communication visuelle</strong>, le <strong>design digital</strong> et <strong>l'expérience utilisateur</strong>, jusqu'à intégrer <strong>l'intelligence artificielle</strong> dans mes processus créatifs.</p>
+          <p class="reveal-up">Le résultat : un profil capable de comprendre aussi bien les <strong>enjeux artistiques</strong> que les <strong>contraintes techniques</strong> — une vision 360° de la communication visuelle.</p>
+        </div>
+        <ul class="about__pillars">
+          <li class="about__pillar reveal-up" data-cursor="hover"><span>↗</span> Vision globale de la chaîne de production</li>
+          <li class="about__pillar reveal-up" data-cursor="hover"><span>↗</span> Forte culture graphique</li>
+          <li class="about__pillar reveal-up" data-cursor="hover"><span>↗</span> De la conception à la réalisation</li>
+          <li class="about__pillar reveal-up" data-cursor="hover"><span>↗</span> Passionné par l'innovation & l'IA</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- PROJECTS -->
+    <section class="projects" id="projects">
+      <div class="section__head">
+        <span class="section__tag">02 — Projets</span>
+        <h2 class="section__title reveal-words">Des études de cas, du print au digital.</h2>
+      </div>
+
+      <div class="projects__list">
+        <!-- SNCF -->
+        <article class="project reveal-up" data-cursor="view">
+          <div class="project__media" style="--c1:#9b1b30;--c2:#e63946">
+            <span class="project__cover-label">SNCF</span>
+          </div>
+          <div class="project__info">
+            <span class="project__index">01</span>
+            <h3 class="project__title">SNCF — Habillage de gares</h3>
+            <p class="project__tags">Signalétique · Communication Nudge · PLV · Grand format</p>
+            <div class="project__detail">
+              <p><strong>Contexte.</strong> Habillage complet de gares avec une approche cohérente sur l'ensemble des supports.</p>
+              <p><strong>Objectifs.</strong> Guider les voyageurs, valoriser les espaces et déployer une communication Nudge efficace.</p>
+              <p><strong>Réalisations.</strong> Signalétique directionnelle, dispositifs Nudge, PLV et supports grand format.</p>
+              <p><strong>Résultats.</strong> Une expérience voyageur fluidifiée et une identité visuelle homogène sur l'ensemble des gares.</p>
+              <p><strong>Compétences.</strong> Signalétique · Grand format · Direction artistique · Production.</p>
+            </div>
+          </div>
+        </article>
+
+        <!-- ANIMALIS -->
+        <article class="project reveal-up" data-cursor="view">
+          <div class="project__media" style="--c1:#1b6b4c;--c2:#2ecc71">
+            <span class="project__cover-label">Animalis</span>
+          </div>
+          <div class="project__info">
+            <span class="project__index">02</span>
+            <h3 class="project__title">Animalis — Communication retail</h3>
+            <p class="project__tags">Print · Digital · Marketing retail</p>
+            <div class="project__detail">
+              <p><strong>Contexte.</strong> Création de supports de communication pour une enseigne spécialisée.</p>
+              <p><strong>Objectifs.</strong> Renforcer l'attractivité en point de vente et harmoniser print & digital.</p>
+              <p><strong>Réalisations.</strong> Supports print, déclinaisons digitales et dispositifs de marketing retail.</p>
+              <p><strong>Résultats.</strong> Une communication retail cohérente et impactante sur tous les canaux.</p>
+              <p><strong>Compétences.</strong> Print · Digital · Retail · Déclinaison de gammes.</p>
+            </div>
+          </div>
+        </article>
+
+        <!-- GUERLAIN -->
+        <article class="project reveal-up" data-cursor="view">
+          <div class="project__media" style="--c1:#1a1a1a;--c2:#c9a14a">
+            <span class="project__cover-label">Guerlain</span>
+          </div>
+          <div class="project__info">
+            <span class="project__index">03</span>
+            <h3 class="project__title">Guerlain — Stand d'exposition</h3>
+            <p class="project__tags">Communication événementielle · Univers premium</p>
+            <div class="project__detail">
+              <p><strong>Contexte.</strong> Conception d'un stand d'exposition pour une maison de luxe.</p>
+              <p><strong>Objectifs.</strong> Traduire un univers premium dans un espace événementiel immersif.</p>
+              <p><strong>Réalisations.</strong> Conception du stand, scénographie et supports événementiels haut de gamme.</p>
+              <p><strong>Résultats.</strong> Une expérience de marque élégante et fidèle aux codes du luxe.</p>
+              <p><strong>Compétences.</strong> Événementiel · Scénographie · Direction artistique premium.</p>
+            </div>
+          </div>
+        </article>
+
+        <!-- STIHL -->
+        <article class="project reveal-up" data-cursor="view">
+          <div class="project__media" style="--c1:#d35400;--c2:#f39c12">
+            <span class="project__cover-label">STIHL</span>
+          </div>
+          <div class="project__info">
+            <span class="project__index">04</span>
+            <h3 class="project__title">STIHL — PLV nationale</h3>
+            <p class="project__tags">PLV · Déploiement national · 400+ points de vente</p>
+            <div class="project__detail">
+              <p><strong>Contexte.</strong> Conception et déploiement d'une PLV à l'échelle nationale.</p>
+              <p><strong>Objectifs.</strong> Garantir l'impact et la cohérence de la marque dans chaque point de vente.</p>
+              <p><strong>Réalisations.</strong> Déploiement dans plus de <strong>400 points de vente</strong>.</p>
+              <p><strong>Résultats.</strong> Une présence de marque homogène et un message lisible partout en France.</p>
+              <p><strong>Compétences.</strong> PLV · Déploiement à grande échelle · Production.</p>
+            </div>
+          </div>
+        </article>
+
+        <!-- PSA -->
+        <article class="project reveal-up" data-cursor="view">
+          <div class="project__media" style="--c1:#0b3d91;--c2:#2980b9">
+            <span class="project__cover-label">PSA</span>
+          </div>
+          <div class="project__info">
+            <span class="project__index">05</span>
+            <h3 class="project__title">PSA — Covering automobile</h3>
+            <p class="project__tags">Conception graphique · Préparation technique · Production</p>
+            <div class="project__detail">
+              <p><strong>Contexte.</strong> Projet de covering automobile, de la création au suivi de production.</p>
+              <p><strong>Objectifs.</strong> Concevoir un habillage graphique précis et techniquement réalisable.</p>
+              <p><strong>Réalisations.</strong> Conception graphique, préparation technique des fichiers et suivi de production.</p>
+              <p><strong>Résultats.</strong> Un covering maîtrisé, conforme aux contraintes de pose et de fabrication.</p>
+              <p><strong>Compétences.</strong> Conception · Prépresse · Suivi de production.</p>
+            </div>
+          </div>
+        </article>
+
+        <!-- RESTAURANTS & HÔTELS -->
+        <article class="project reveal-up" data-cursor="view">
+          <div class="project__media" style="--c1:#5b2c6f;--c2:#af7ac5">
+            <span class="project__cover-label">Restaurants &amp; Hôtels</span>
+          </div>
+          <div class="project__info">
+            <span class="project__index">06</span>
+            <h3 class="project__title">Restaurants &amp; Hôtels — Identités</h3>
+            <p class="project__tags">Refonte d'identité · Menus · Signalétique · Supports</p>
+            <div class="project__detail">
+              <p><strong>Contexte.</strong> Refonte d'identités visuelles pour des établissements de restauration et d'hôtellerie.</p>
+              <p><strong>Objectifs.</strong> Moderniser l'image de marque et harmoniser tous les points de contact.</p>
+              <p><strong>Réalisations.</strong> Identités visuelles, menus, signalétique et supports de communication.</p>
+              <p><strong>Résultats.</strong> Des univers de marque distinctifs et cohérents, de la carte à la façade.</p>
+              <p><strong>Compétences.</strong> Branding · Édition · Signalétique.</p>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- SKILLS -->
+    <section class="skills" id="skills">
+      <div class="section__head">
+        <span class="section__tag">03 — Compétences</span>
+        <h2 class="section__title reveal-words">Création, outils & innovation.</h2>
+      </div>
+
+      <div class="skills__grid">
+        <div class="skills__col reveal-up">
+          <h3 class="skills__col-title">Création</h3>
+          <ul>
+            <li data-cursor="hover">Branding</li>
+            <li data-cursor="hover">Direction artistique</li>
+            <li data-cursor="hover">Identité visuelle</li>
+            <li data-cursor="hover">Packaging</li>
+            <li data-cursor="hover">Communication visuelle</li>
+            <li data-cursor="hover">Motion Design</li>
+            <li data-cursor="hover">UX / UI Design</li>
+          </ul>
+        </div>
+        <div class="skills__col reveal-up">
+          <h3 class="skills__col-title">Outils</h3>
+          <ul>
+            <li data-cursor="hover">Photoshop</li>
+            <li data-cursor="hover">Illustrator</li>
+            <li data-cursor="hover">InDesign</li>
+            <li data-cursor="hover">After Effects</li>
+            <li data-cursor="hover">Premiere Pro</li>
+            <li data-cursor="hover">Figma</li>
+          </ul>
+        </div>
+        <div class="skills__col reveal-up">
+          <h3 class="skills__col-title">Innovation</h3>
+          <ul>
+            <li data-cursor="hover">Intelligence artificielle</li>
+            <li data-cursor="hover">Automatisation des workflows</li>
+            <li data-cursor="hover">Prompt Engineering</li>
+            <li data-cursor="hover">Optimisation des processus créatifs</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- AI SECTION -->
+    <section class="ai" id="ai">
+      <div class="ai__glow"></div>
+      <div class="section__head">
+        <span class="section__tag">04 — Intelligence Artificielle</span>
+        <h2 class="section__title reveal-words">Acteur de la transformation des métiers créatifs.</h2>
+      </div>
+
+      <p class="ai__lead reveal-up">Je ne suis pas seulement graphiste : j'intègre l'intelligence artificielle au cœur de mes processus pour créer plus vite, mieux, et plus loin.</p>
+
+      <div class="ai__cards">
+        <div class="ai__card reveal-up" data-cursor="hover">
+          <span class="ai__card-num">01</span>
+          <h3>Automatisation</h3>
+          <p>Automatisation des tâches répétitives pour libérer du temps créatif.</p>
+        </div>
+        <div class="ai__card reveal-up" data-cursor="hover">
+          <span class="ai__card-num">02</span>
+          <h3>Accélération</h3>
+          <p>Accélération des processus créatifs, de l'idée à la maquette.</p>
+        </div>
+        <div class="ai__card reveal-up" data-cursor="hover">
+          <span class="ai__card-num">03</span>
+          <h3>Génération d'idées</h3>
+          <p>Exploration et génération d'idées pour nourrir la création.</p>
+        </div>
+        <div class="ai__card reveal-up" data-cursor="hover">
+          <span class="ai__card-num">04</span>
+          <h3>Production optimisée</h3>
+          <p>Optimisation de la production graphique et fiabilisation des livrables.</p>
+        </div>
+        <div class="ai__card reveal-up" data-cursor="hover">
+          <span class="ai__card-num">05</span>
+          <h3>Méthodes modernes</h3>
+          <p>Modernisation des méthodes de travail et des workflows créatifs.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- JOURNEY / TIMELINE -->
+    <section class="journey" id="journey">
+      <div class="section__head">
+        <span class="section__tag">05 — Parcours</span>
+        <h2 class="section__title reveal-words">Une progression continue.</h2>
+      </div>
+
+      <div class="timeline">
+        <div class="timeline__item reveal-up" data-cursor="hover">
+          <span class="timeline__dot"></span>
+          <h3>Bac Pro RPIP</h3>
+          <p>Réalisation de produits imprimés et plurimédia — les fondations de la production graphique.</p>
+        </div>
+        <div class="timeline__item reveal-up" data-cursor="hover">
+          <span class="timeline__dot"></span>
+          <h3>BTS ERPC</h3>
+          <p>Études et réalisation d'un projet de communication — la vision globale de la chaîne graphique.</p>
+        </div>
+        <div class="timeline__item reveal-up" data-cursor="hover">
+          <span class="timeline__dot"></span>
+          <h3>Alternance — Imprimerie IROPA</h3>
+          <p>Immersion dans la production et l'impression, au plus près des contraintes techniques.</p>
+        </div>
+        <div class="timeline__item reveal-up" data-cursor="hover">
+          <span class="timeline__dot"></span>
+          <h3>Alternance — Groupe BREARD</h3>
+          <p>Projets print, PLV et communication visuelle à grande échelle pour des marques majeures.</p>
+        </div>
+        <div class="timeline__item reveal-up" data-cursor="hover">
+          <span class="timeline__dot timeline__dot--active"></span>
+          <h3>Admission à l'IIM Digital School</h3>
+          <p>Cap vers le digital, l'UX/UI et l'innovation au service de la création.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section class="contact" id="contact">
+      <div class="contact__inner">
+        <span class="section__tag">06 — Contact</span>
+        <h2 class="contact__title">
+          <span class="char-wrap">Travaillons</span>
+          <span class="char-wrap contact__title--outline">ensemble.</span>
+        </h2>
+        <p class="contact__lead reveal-up">Un projet de branding, de packaging, de communication visuelle ou de design digital ? Parlons-en.</p>
+        <a href="mailto:raphael.dumaslevillain@gmail.com" class="contact__mail magnetic" data-cursor="hover">raphael.dumaslevillain@gmail.com</a>
+      </div>
+      <footer class="footer">
+        <span>© <span id="year"></span> Raphaël Dumas Levillain</span>
+        <span>Designer graphique · Branding · Digital · UX/UI</span>
+      </footer>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
