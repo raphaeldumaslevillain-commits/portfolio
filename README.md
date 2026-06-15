@@ -30,18 +30,47 @@ python3 -m http.server 8000
 # puis ouvrir http://localhost:8000
 ```
 
+## Images à déposer
+
+Déposez ces fichiers **à la racine du dossier** (à côté de `index.html`). Tant
+qu'ils sont absents, un repère « à déposer » s'affiche à leur place.
+
+| Fichier | Usage |
+|---|---|
+| `portrait.png` | Photo portrait du hero |
+| `covering.jpg` | Projet covering Renault Labeda — Clio Cup 2026 |
+| `stand.png` | Projet stand modulaire Bréard × Guerlain |
+| `site.png` | Projet Izakaya — rebranding & site web |
+
+### Boîte 3D Moki! (projet phare)
+
+Les 6 faces de la boîte de macarons (BoxGeometry 20 × 5 × 7) :
+
+| Fichier | Face |
+|---|---|
+| `facedessus.png` | Dessus (20×7) |
+| `dessous.png` | Dessous (20×7) |
+| `facedroite.png` | Grande face avant (20×5) |
+| `facegauche.png` | Grande face arrière (20×5) |
+| `cotes.png` | Les deux petits bouts (7×5) |
+
+L'orientation de chaque face (rotation par pas de 90°, miroir) se règle dans
+l'objet `FACES` en haut de `moki.js`, sans toucher au reste du code.
+La 3D utilise **Three.js** + **OrbitControls** chargés via CDN (importmap) :
+rotation au clic-glisser, zoom à la molette, pas d'auto-rotation.
+
 ## Personnalisation
 
-- **Photo portrait** : remplacer le bloc `#portrait` dans `index.html` par une
-  balise `<img src="votre-photo.jpg" alt="Raphaël Dumas Levillain" />`.
 - **Couleurs** : variables CSS en haut de `styles.css` (`--accent`, `--accent-2`, …).
-- **Images de projets** : remplacer les `.project__media` (dégradés) par de vraies
-  images de couverture.
+- **Images de projets** : les autres `.project__media` (SNCF, Animalis, STIHL)
+  utilisent des dégradés ; remplaçables par de vraies images sur le même modèle
+  que les projets ci-dessus.
 
 ## Structure
 
 ```
-index.html    Structure et contenu
+index.html    Structure et contenu (+ importmap Three.js)
 styles.css    Design, mise en page, animations
 script.js     Curseur, compteurs, reveals, accordéon projets, parallaxe
+moki.js       Boîte de macarons 3D (Three.js + OrbitControls)
 ```

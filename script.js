@@ -16,6 +16,16 @@
   const yearEl = document.getElementById("year");
   if (yearEl) yearEl.textContent = new Date().getFullYear();
 
+  /* ---------- Image fallbacks (mark parent when image is missing) ---------- */
+  document.querySelectorAll("img[src]").forEach((img) => {
+    const flag = () => img.closest(".hero__portrait-img, .project__media")?.classList.add("img-missing");
+    if (img.complete && img.naturalWidth === 0) flag();
+    img.addEventListener("error", flag);
+    img.addEventListener("load", () => {
+      if (img.naturalWidth === 0) flag();
+    });
+  });
+
   /* ---------- Custom cursor ---------- */
   const cursor = document.getElementById("cursor");
   const dot = document.getElementById("cursorDot");
@@ -68,7 +78,7 @@
   }
 
   /* ---------- Split hero name into chars ---------- */
-  document.querySelectorAll(".hero__name .char-wrap, .contact__title .char-wrap").forEach((wrap, wi) => {
+  document.querySelectorAll(".hero__name .char-wrap").forEach((wrap, wi) => {
     const text = wrap.textContent;
     wrap.textContent = "";
     [...text].forEach((ch, i) => {

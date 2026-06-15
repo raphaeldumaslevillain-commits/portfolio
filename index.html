@@ -9,6 +9,14 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Syne:wght@600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+      "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+    }
+  }
+  </script>
 </head>
 <body>
   <!-- Custom cursor -->
@@ -98,8 +106,11 @@
       <div class="hero__portrait reveal-portrait">
         <div class="hero__portrait-frame">
           <div class="hero__portrait-img" id="portrait">
-            <span class="hero__portrait-initials">RDL</span>
-            <span class="hero__portrait-note">Remplacez par votre photo portrait</span>
+            <img class="hero__portrait-photo" src="portrait.png" alt="Raphaël Dumas Levillain, designer graphique" />
+            <span class="hero__portrait-fallback">
+              <span class="hero__portrait-initials">RDL</span>
+              <span class="hero__portrait-note">Déposez « portrait.png » dans le dossier</span>
+            </span>
           </div>
           <span class="hero__portrait-badge">5 ans<br><small>d'alternance</small></span>
         </div>
@@ -170,6 +181,32 @@
         <h2 class="section__title reveal-words">Des études de cas, du print au digital.</h2>
       </div>
 
+      <!-- FLAGSHIP — MOKI! 3D BOX -->
+      <article class="flagship reveal-up">
+        <div class="flagship__viewer">
+          <div class="moki-stage" id="mokiStage">
+            <div class="moki-loader" id="mokiLoader"><span></span><span></span><span></span></div>
+          </div>
+          <span class="moki-hint">
+            <svg viewBox="0 0 24 24" fill="none" width="16" height="16"><path d="M4 12a8 8 0 1 1 8 8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M12 20l-3-2m3 2l3-2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Cliquez-glissez pour tourner · molette pour zoomer
+          </span>
+        </div>
+        <div class="flagship__info">
+          <span class="flagship__badge">Projet phare · Projet personnel</span>
+          <h3 class="flagship__title">Moki! — La boîte de macarons qui sert de CV</h3>
+          <p class="project__tags">Branding · Packaging · Concept · Direction artistique · 3D</p>
+          <div class="flagship__detail">
+            <p><strong>Contexte.</strong> Un projet personnel et auto-promotionnel : j'ai imaginé <strong>Moki!</strong>, une fausse marque de macarons, dont le packaging fait office de CV. Je remets cette boîte aux recruteurs en main propre.</p>
+            <p><strong>Objectifs.</strong> Sortir du CV papier classique, démontrer ma maîtrise du branding et du packaging, et créer un objet mémorable qui raconte mon parcours.</p>
+            <p><strong>Réalisations.</strong> Création de l'identité de marque, design du packaging et déclinaison de chaque face de la boîte en support de présentation (parcours, compétences, contact).</p>
+            <p><strong>Résultats.</strong> Un objet de communication unique, tangible et marquant — un CV que l'on garde et que l'on partage.</p>
+            <p><strong>Compétences.</strong> Branding · Packaging · Concept créatif · Direction artistique.</p>
+          </div>
+          <p class="flagship__tip">Tournez la boîte 3D pour explorer chaque face.</p>
+        </div>
+      </article>
+
       <div class="projects__list">
         <!-- SNCF -->
         <article class="project reveal-up" data-cursor="view">
@@ -209,21 +246,21 @@
           </div>
         </article>
 
-        <!-- GUERLAIN -->
+        <!-- STAND MODULAIRE — BRÉARD × GUERLAIN -->
         <article class="project reveal-up" data-cursor="view">
-          <div class="project__media" style="--c1:#1a1a1a;--c2:#c9a14a">
-            <span class="project__cover-label">Guerlain</span>
+          <div class="project__media project__media--img">
+            <img src="stand.png" alt="Stand modulaire Bréard × Guerlain" loading="lazy" />
           </div>
           <div class="project__info">
             <span class="project__index">03</span>
-            <h3 class="project__title">Guerlain — Stand d'exposition</h3>
-            <p class="project__tags">Communication événementielle · Univers premium</p>
+            <h3 class="project__title">Stand modulaire — Bréard × Guerlain</h3>
+            <p class="project__tags">Communication événementielle · Stand modulaire · Univers premium</p>
             <div class="project__detail">
-              <p><strong>Contexte.</strong> Conception d'un stand d'exposition pour une maison de luxe.</p>
-              <p><strong>Objectifs.</strong> Traduire un univers premium dans un espace événementiel immersif.</p>
-              <p><strong>Réalisations.</strong> Conception du stand, scénographie et supports événementiels haut de gamme.</p>
-              <p><strong>Résultats.</strong> Une expérience de marque élégante et fidèle aux codes du luxe.</p>
-              <p><strong>Compétences.</strong> Événementiel · Scénographie · Direction artistique premium.</p>
+              <p><strong>Contexte.</strong> Conception d'un stand d'exposition modulaire, en collaboration avec le Groupe Bréard, pour la maison Guerlain.</p>
+              <p><strong>Objectifs.</strong> Traduire un univers premium dans un espace événementiel immersif, flexible et réutilisable.</p>
+              <p><strong>Réalisations.</strong> Conception du stand modulaire, scénographie et supports événementiels haut de gamme.</p>
+              <p><strong>Résultats.</strong> Une expérience de marque élégante, adaptable et fidèle aux codes du luxe.</p>
+              <p><strong>Compétences.</strong> Événementiel · Stand modulaire · Scénographie · Direction artistique premium.</p>
             </div>
           </div>
         </article>
@@ -247,40 +284,40 @@
           </div>
         </article>
 
-        <!-- PSA -->
+        <!-- RENAULT LABEDA — COVERING CLIO CUP 2026 -->
         <article class="project reveal-up" data-cursor="view">
-          <div class="project__media" style="--c1:#0b3d91;--c2:#2980b9">
-            <span class="project__cover-label">PSA</span>
+          <div class="project__media project__media--img">
+            <img src="covering.jpg" alt="Covering Clio Cup 2026 — Garage Renault Labeda" loading="lazy" />
           </div>
           <div class="project__info">
             <span class="project__index">05</span>
-            <h3 class="project__title">PSA — Covering automobile</h3>
-            <p class="project__tags">Conception graphique · Préparation technique · Production</p>
+            <h3 class="project__title">Renault Labeda — Covering Clio Cup 2026</h3>
+            <p class="project__tags">Conception graphique · Covering · Préparation technique · Production</p>
             <div class="project__detail">
-              <p><strong>Contexte.</strong> Projet de covering automobile, de la création au suivi de production.</p>
-              <p><strong>Objectifs.</strong> Concevoir un habillage graphique précis et techniquement réalisable.</p>
-              <p><strong>Réalisations.</strong> Conception graphique, préparation technique des fichiers et suivi de production.</p>
-              <p><strong>Résultats.</strong> Un covering maîtrisé, conforme aux contraintes de pose et de fabrication.</p>
-              <p><strong>Compétences.</strong> Conception · Prépresse · Suivi de production.</p>
+              <p><strong>Contexte.</strong> Design du covering de la voiture de course du garage Renault Labeda pour la <strong>Clio Cup 2026</strong>.</p>
+              <p><strong>Objectifs.</strong> Concevoir un habillage graphique percutant, lisible en piste et techniquement réalisable.</p>
+              <p><strong>Réalisations.</strong> Conception graphique, intégration des partenaires, préparation technique des fichiers et suivi de production.</p>
+              <p><strong>Résultats.</strong> Un covering dynamique et maîtrisé, conforme aux contraintes de pose et de fabrication.</p>
+              <p><strong>Compétences.</strong> Conception · Covering · Prépresse · Suivi de production.</p>
             </div>
           </div>
         </article>
 
-        <!-- RESTAURANTS & HÔTELS -->
+        <!-- IZAKAYA — REBRANDING & SITE WEB -->
         <article class="project reveal-up" data-cursor="view">
-          <div class="project__media" style="--c1:#5b2c6f;--c2:#af7ac5">
-            <span class="project__cover-label">Restaurants &amp; Hôtels</span>
+          <div class="project__media project__media--img">
+            <img src="site.png" alt="Site web du restaurant Izakaya, Le Petit-Quevilly" loading="lazy" />
           </div>
           <div class="project__info">
             <span class="project__index">06</span>
-            <h3 class="project__title">Restaurants &amp; Hôtels — Identités</h3>
-            <p class="project__tags">Refonte d'identité · Menus · Signalétique · Supports</p>
+            <h3 class="project__title">Izakaya — Rebranding &amp; site web</h3>
+            <p class="project__tags">Branding · Design digital · UX/UI · Site web</p>
             <div class="project__detail">
-              <p><strong>Contexte.</strong> Refonte d'identités visuelles pour des établissements de restauration et d'hôtellerie.</p>
-              <p><strong>Objectifs.</strong> Moderniser l'image de marque et harmoniser tous les points de contact.</p>
-              <p><strong>Réalisations.</strong> Identités visuelles, menus, signalétique et supports de communication.</p>
-              <p><strong>Résultats.</strong> Des univers de marque distinctifs et cohérents, de la carte à la façade.</p>
-              <p><strong>Compétences.</strong> Branding · Édition · Signalétique.</p>
+              <p><strong>Contexte.</strong> Rebranding total du restaurant <strong>Izakaya</strong> au Petit-Quevilly et design de son nouveau site web.</p>
+              <p><strong>Objectifs.</strong> Moderniser l'image de marque et offrir une expérience digitale à la hauteur de l'établissement.</p>
+              <p><strong>Réalisations.</strong> Nouvelle identité visuelle, déclinaison sur les supports et conception du site web (UX/UI).</p>
+              <p><strong>Résultats.</strong> Un univers de marque distinctif et cohérent, de la table à l'écran.</p>
+              <p><strong>Compétences.</strong> Branding · UX/UI · Design digital · Direction artistique.</p>
             </div>
           </div>
         </article>
@@ -409,12 +446,29 @@
     <section class="contact" id="contact">
       <div class="contact__inner">
         <span class="section__tag">06 — Contact</span>
-        <h2 class="contact__title">
-          <span class="char-wrap">Travaillons</span>
-          <span class="char-wrap contact__title--outline">ensemble.</span>
-        </h2>
-        <p class="contact__lead reveal-up">Un projet de branding, de packaging, de communication visuelle ou de design digital ? Parlons-en.</p>
-        <a href="mailto:raphael.dumaslevillain@gmail.com" class="contact__mail magnetic" data-cursor="hover">raphael.dumaslevillain@gmail.com</a>
+        <h2 class="contact__title reveal-words">Travaillons ensemble.</h2>
+        <p class="contact__lead reveal-up">Un projet de branding, de packaging, de communication visuelle ou de design digital&nbsp;? Une alternance&nbsp;? Parlons-en.</p>
+
+        <div class="contact__cards">
+          <a href="mailto:raphael.dumaslevillain@gmail.com" class="contact__card reveal-up" data-cursor="hover">
+            <span class="contact__card-label">Email</span>
+            <span class="contact__card-value">raphael.dumaslevillain@gmail.com</span>
+            <span class="contact__card-arrow">↗</span>
+          </a>
+          <div class="contact__card reveal-up">
+            <span class="contact__card-label">Localisation</span>
+            <span class="contact__card-value">Rouen · Normandie<br>France</span>
+          </div>
+          <div class="contact__card reveal-up">
+            <span class="contact__card-label">Disponibilité</span>
+            <span class="contact__card-value">Ouvert aux projets<br>&amp; opportunités</span>
+          </div>
+        </div>
+
+        <a href="mailto:raphael.dumaslevillain@gmail.com" class="btn btn--primary magnetic contact__btn" data-cursor="hover">
+          <span>Démarrer un projet</span>
+          <svg viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
       </div>
       <footer class="footer">
         <span>© <span id="year"></span> Raphaël Dumas Levillain</span>
@@ -424,5 +478,6 @@
   </main>
 
   <script src="script.js"></script>
+  <script type="module" src="moki.js"></script>
 </body>
 </html>
