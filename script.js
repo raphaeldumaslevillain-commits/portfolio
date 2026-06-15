@@ -79,20 +79,30 @@
 
   /* ---------- Split hero name into chars ---------- */
   document.querySelectorAll(".hero__name .char-wrap").forEach((wrap, wi) => {
-    const text = wrap.textContent;
+    const words = wrap.textContent.split(" ");
     wrap.textContent = "";
-    [...text].forEach((ch, i) => {
-      const span = document.createElement("span");
-      span.textContent = ch === " " ? " " : ch;
-      span.style.display = "inline-block";
-      span.style.transform = prefersReduced ? "none" : "translateY(110%)";
-      span.style.transition = `transform .8s var(--ease) ${wi * 0.15 + i * 0.03}s`;
-      wrap.appendChild(span);
+    let ci = 0;
+    words.forEach((word, widx) => {
+      const wordSpan = document.createElement("span");
+      wordSpan.style.display = "inline-block";
+      wordSpan.style.whiteSpace = "nowrap";
+      [...word].forEach((ch) => {
+        const span = document.createElement("span");
+        span.className = "name-char";
+        span.textContent = ch;
+        span.style.display = "inline-block";
+        span.style.transform = prefersReduced ? "none" : "translateY(110%)";
+        span.style.transition = `transform .8s var(--ease) ${wi * 0.15 + ci * 0.03}s`;
+        wordSpan.appendChild(span);
+        ci++;
+      });
+      wrap.appendChild(wordSpan);
+      if (widx < words.length - 1) wrap.appendChild(document.createTextNode(" "));
     });
   });
   // trigger hero name after a tick
   setTimeout(() => {
-    document.querySelectorAll(".hero__name .char-wrap span").forEach((s) => (s.style.transform = "translateY(0)"));
+    document.querySelectorAll(".hero__name .name-char").forEach((s) => (s.style.transform = "translateY(0)"));
   }, 1400);
 
   /* ---------- Split reveal-words titles ---------- */

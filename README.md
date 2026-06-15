@@ -12,8 +12,9 @@ Site statique (HTML / CSS / JavaScript, sans dépendance ni build) avec :
 - **Curseur personnalisé** magnétique + effet « Voir » sur les projets.
 - **Chiffres clés** avec compteurs animés au scroll.
 - **À propos** : parcours de l'impression vers le branding, le digital et l'IA.
-- **Projets** : études de cas dépliables (SNCF, Animalis, Guerlain, STIHL, PSA,
-  Restaurants & Hôtels) avec contexte, objectifs, réalisations, résultats et compétences.
+- **Projets** : projet phare Moki! (boîte 3D) + études de cas dépliables (Astranova,
+  Bréard × Guerlain, STIHL, Renault Labeda, Izakaya) avec contexte, objectifs,
+  réalisations, résultats et compétences.
 - **Compétences** : Création / Outils / Innovation.
 - **Section IA** dédiée à la transformation des métiers créatifs.
 - **Parcours** : timeline (Bac Pro RPIP → BTS ERPC → IROPA → Groupe BREARD → IIM Digital School).

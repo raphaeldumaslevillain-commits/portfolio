@@ -313,7 +313,12 @@ section { padding: clamp(5rem, 12vh, 10rem) clamp(1.2rem, 4vw, 3.5rem); position
 .about__text p { font-size: clamp(1.05rem, 1.7vw, 1.3rem); color: #cfcdc7; margin-bottom: 1.5rem; max-width: 52ch; }
 .about__aside { font-style: italic; color: var(--muted) !important; font-size: 1rem !important; }
 .about__aside strong { color: var(--accent); }
-.about__pillars { list-style: none; display: flex; flex-direction: column; gap: 1rem; align-self: start; }
+.about__pillars { align-self: start; }
+.about__pillars-title {
+  font-family: var(--font-display); font-weight: 700; font-size: 1.4rem;
+  margin-bottom: 1.2rem; color: var(--accent);
+}
+.about__pillars-list { list-style: none; display: flex; flex-direction: column; gap: 1rem; }
 .about__pillar {
   border: 1px solid var(--line); border-radius: 14px; padding: 1.1rem 1.3rem;
   font-family: var(--font-head); font-size: 1rem; display: flex; gap: .8rem; align-items: center;
