@@ -91,9 +91,6 @@ export function initProjectsDeck({ gsap, ScrollTrigger, Flip, lenis, reduce }) {
           <span class="deck__full-tag">${p.sous}</span>
           <h3 class="deck__full-title">${p.titre}</h3>
           <p class="deck__full-desc">${p.descLongue}</p>
-          <a class="deck__full-link" href="${p.lien}">Voir le projet
-            <svg viewBox="0 0 24 24" fill="none" width="18" height="18"><path d="M7 17L17 7M9 7h8v8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </a>
         </div>
       </div>`;
     stage.appendChild(el);
