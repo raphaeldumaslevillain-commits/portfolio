@@ -231,6 +231,11 @@ section { padding: clamp(5rem, 12vh, 10rem) clamp(1.2rem, 4vw, 3.5rem); position
   font-size: clamp(1.1rem, 2.4vw, 1.7rem); max-width: 22ch;
   line-height: 1.3; margin-bottom: 2.4rem;
 }
+.hero__subline {
+  font-size: clamp(.95rem, 1.5vw, 1.1rem); color: #b9b7b1;
+  max-width: 46ch; line-height: 1.55; margin-bottom: 2.2rem;
+}
+.hero__subline strong { color: var(--accent); }
 .hero__actions { display: flex; gap: 1rem; flex-wrap: wrap; }
 
 .hero__portrait { position: relative; z-index: 2; justify-self: center; }
@@ -306,6 +311,8 @@ section { padding: clamp(5rem, 12vh, 10rem) clamp(1.2rem, 4vw, 3.5rem); position
 /* ---------- About ---------- */
 .about__grid { max-width: var(--max); margin: 0 auto; display: grid; grid-template-columns: 1.5fr 1fr; gap: 4rem; }
 .about__text p { font-size: clamp(1.05rem, 1.7vw, 1.3rem); color: #cfcdc7; margin-bottom: 1.5rem; max-width: 52ch; }
+.about__aside { font-style: italic; color: var(--muted) !important; font-size: 1rem !important; }
+.about__aside strong { color: var(--accent); }
 .about__pillars { list-style: none; display: flex; flex-direction: column; gap: 1rem; align-self: start; }
 .about__pillar {
   border: 1px solid var(--line); border-radius: 14px; padding: 1.1rem 1.3rem;
@@ -370,6 +377,19 @@ section { padding: clamp(5rem, 12vh, 10rem) clamp(1.2rem, 4vw, 3.5rem); position
   content: "Image à déposer"; display: grid; place-content: center; inset: 0; position: absolute;
   font-family: var(--font-head); font-size: .85rem; color: var(--muted); opacity: 1; background: none;
 }
+
+/* ---------- Projects banner ("Ne partez pas...") ---------- */
+.projects__banner {
+  max-width: var(--max); margin: 4.5rem auto 1rem; text-align: center;
+  padding: 3rem 1rem; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
+}
+.projects__banner-title {
+  font-family: var(--font-display); font-weight: 800; letter-spacing: -0.03em;
+  font-size: clamp(2.2rem, 7vw, 5.5rem); line-height: 1; max-width: 16ch; margin: 0 auto;
+  background: linear-gradient(110deg, var(--fg) 30%, var(--accent));
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.projects__banner-sub { color: var(--muted); max-width: 58ch; margin: 1.4rem auto 0; font-size: clamp(1rem, 1.7vw, 1.2rem); }
 
 /* ---------- Flagship project (Moki! 3D) ---------- */
 .flagship {
@@ -508,7 +528,36 @@ a.contact__card:hover { transform: translateY(-6px); border-color: var(--accent)
 .contact__card-value { font-family: var(--font-head); font-size: 1rem; line-height: 1.4; word-break: break-word; }
 .contact__card-arrow { position: absolute; top: 1.2rem; right: 1.3rem; color: var(--accent); transition: transform .35s var(--ease); }
 a.contact__card:hover .contact__card-arrow { transform: translate(3px, -3px); }
-.contact__btn { align-self: center; }
+.contact__card--highlight { border-color: var(--accent); background: rgba(255,92,57,0.08); }
+.contact__card--highlight .contact__card-value strong { color: var(--accent); }
+
+/* big clickable email "button" */
+.contact__email {
+  display: inline-flex; flex-direction: column; gap: .3rem; align-items: center;
+  border: 1px solid var(--line); border-radius: 16px; padding: 1.3rem 2.2rem;
+  margin-bottom: 2.4rem; position: relative; overflow: hidden;
+  transition: transform .35s var(--ease), border-color .35s, background .35s;
+}
+.contact__email::before {
+  content: ""; position: absolute; inset: 0; z-index: 0;
+  background: linear-gradient(120deg, var(--accent), var(--accent-2));
+  opacity: 0; transition: opacity .35s;
+}
+.contact__email:hover { transform: translateY(-4px); border-color: transparent; }
+.contact__email:hover::before { opacity: 1; }
+.contact__email-label {
+  position: relative; z-index: 1; font-family: var(--font-head); font-size: .72rem;
+  letter-spacing: .2em; text-transform: uppercase; color: var(--muted);
+  transition: color .35s;
+}
+.contact__email-value {
+  position: relative; z-index: 1; font-family: var(--font-head); font-weight: 600;
+  font-size: clamp(1.1rem, 3vw, 1.9rem); word-break: break-word;
+}
+.contact__email:hover .contact__email-label,
+.contact__email:hover .contact__email-value { color: #fff; }
+.contact__gag { margin-top: 2.6rem; font-style: italic; color: var(--muted); font-size: clamp(1rem, 2vw, 1.25rem); }
+.contact__gag strong { color: var(--accent); font-style: normal; }
 
 .footer {
   max-width: var(--max); margin: 5rem auto 0; padding-top: 2rem; border-top: 1px solid var(--line);

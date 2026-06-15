@@ -38,8 +38,10 @@ qu'ils sont absents, un repère « à déposer » s'affiche à leur place.
 | Fichier | Usage |
 |---|---|
 | `portrait.png` | Photo portrait du hero |
-| `covering.jpg` | Projet covering Renault Labeda — Clio Cup 2026 |
+| `astranova.jpg` | Projet stand Astranova |
 | `stand.png` | Projet stand modulaire Bréard × Guerlain |
+| `stihl.jpg` | Projet STIHL — PLV nationale |
+| `covering.jpg` | Projet covering Renault Labeda — Clio Cup 2026 |
 | `site.png` | Projet Izakaya — rebranding & site web |
 
 ### Boîte 3D Moki! (projet phare)
