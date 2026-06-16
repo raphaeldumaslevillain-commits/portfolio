@@ -102,5 +102,21 @@ export function initScrollReveals({ gsap, ScrollTrigger, reduce }) {
     );
   });
 
+  /* ---- Apparitions en cascade : [data-stagger] anime ses enfants ---- */
+  gsap.utils.toArray("[data-stagger]").forEach((group) => {
+    const kids = gsap.utils.toArray(group.children);
+    gsap.set(kids, { y: 52, autoAlpha: 0 });
+    ScrollTrigger.create({
+      trigger: group,
+      start: "top 85%",
+      once: true,
+      onEnter: () =>
+        gsap.to(kids, {
+          y: 0, autoAlpha: 1, duration: 1, ease: "power3.out", stagger: 0.12,
+          onComplete: () => gsap.set(kids, { clearProps: "transform" }),
+        }),
+    });
+  });
+
   ScrollTrigger.refresh();
 }

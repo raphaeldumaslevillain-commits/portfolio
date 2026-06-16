@@ -510,6 +510,7 @@ a.contact__card:hover .contact__card-arrow { transform: translate(3px, -3px); }
 .anim .reveal-up { opacity: 0; }
 .anim [data-side] { opacity: 0; }
 .anim .r-up, .anim .r-down, .anim .r-left, .anim .r-right { opacity: 0; }
+.anim [data-stagger] > * { opacity: 0; }
 .reveal-words .word { display: inline-block; overflow: hidden; }
 .reveal-words .word-inner { display: inline-block; will-change: transform; }
 
