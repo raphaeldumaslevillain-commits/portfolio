@@ -149,7 +149,6 @@ export function initProjectsDeck({ gsap, ScrollTrigger, Flip, lenis, reduce }) {
       });
       cards.forEach((c, i) => {
         tl.to(c, { ...pos[i], ease: "power3.inOut", duration: 1 }, i * 0.04);
-        tl.to(c, { boxShadow: "0 30px 60px rgba(0,0,0,0.45)", duration: 0.4 }, i * 0.04);
       });
       return tl;
     };

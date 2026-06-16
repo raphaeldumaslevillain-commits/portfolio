@@ -29,6 +29,10 @@
   </script>
 </head>
 <body>
+  <!-- Fonds : ambiance + 3D (particules + objet filaire) -->
+  <div class="bg-grad" aria-hidden="true"></div>
+  <div class="bg3d" id="bg3d" aria-hidden="true"></div>
+
   <!-- Custom cursor -->
   <div class="cursor" id="cursor"></div>
   <div class="cursor-dot" id="cursorDot"></div>
@@ -50,8 +54,8 @@
       <span>RDL</span>
     </a>
     <nav class="nav__links">
-      <a href="#about" data-cursor="hover">À propos</a>
       <a href="#projects" data-cursor="hover">Projets</a>
+      <a href="#about" data-cursor="hover">À propos</a>
       <a href="#skills" data-cursor="hover">Compétences</a>
       <a href="#ai" data-cursor="hover">IA</a>
       <a href="#journey" data-cursor="hover">Parcours</a>
@@ -64,8 +68,8 @@
 
   <!-- Mobile menu -->
   <div class="mobile-menu" id="mobileMenu">
-    <a href="#about">À propos</a>
     <a href="#projects">Projets</a>
+    <a href="#about">À propos</a>
     <a href="#skills">Compétences</a>
     <a href="#ai">IA</a>
     <a href="#journey">Parcours</a>
@@ -171,7 +175,6 @@
         <div class="deck__stage" id="deckStage"></div>
       </div>
     </section>
-    <div class="detail-layer" id="detailLayer" aria-hidden="true"></div>
 
     <!-- KEY FIGURES -->
     <section class="stats" id="stats">
@@ -198,7 +201,7 @@
     <!-- ABOUT -->
     <section class="about" id="about">
       <div class="section__head">
-        <span class="section__tag reveal-up">01 · À propos</span>
+        <span class="section__tag reveal-up">03 · À propos</span>
         <h2 class="section__title reveal-words">Confiant dans mon travail, exigeant dans son exécution, et suffisamment curieux pour toujours chercher à aller plus loin.</h2>
       </div>
 
@@ -224,7 +227,7 @@
     <!-- SKILLS -->
     <section class="skills" id="skills">
       <div class="section__head">
-        <span class="section__tag reveal-up">03 · Compétences</span>
+        <span class="section__tag reveal-up">04 · Compétences</span>
         <h2 class="section__title reveal-words">Création, outils & innovation.</h2>
       </div>
 
@@ -268,7 +271,7 @@
     <section class="ai" id="ai">
       <div class="ai__glow"></div>
       <div class="section__head">
-        <span class="section__tag reveal-up">04 · Intelligence Artificielle</span>
+        <span class="section__tag reveal-up">05 · Intelligence Artificielle</span>
         <h2 class="section__title reveal-words">Acteur de la transformation des métiers créatifs.</h2>
       </div>
 
@@ -306,7 +309,7 @@
     <!-- JOURNEY / TIMELINE -->
     <section class="journey" id="journey">
       <div class="section__head">
-        <span class="section__tag reveal-up">05 · Parcours</span>
+        <span class="section__tag reveal-up">06 · Parcours</span>
         <h2 class="section__title reveal-words">Une progression continue.</h2>
       </div>
 
@@ -328,7 +331,7 @@
         </div>
         <div class="timeline__item r-right" data-cursor="hover">
           <span class="timeline__dot"></span>
-          <h3>Alternance · Groupe BREARD</h3>
+          <h3>Alternance · Groupe Bréard</h3>
           <p>Projets print, PLV et communication visuelle à grande échelle pour des marques majeures.</p>
         </div>
         <div class="timeline__item r-left" data-cursor="hover">
@@ -342,7 +345,7 @@
     <!-- CONTACT -->
     <section class="contact" id="contact">
       <div class="contact__inner">
-        <span class="section__tag reveal-up">06 · Contact</span>
+        <span class="section__tag reveal-up">07 · Contact</span>
         <h2 class="contact__title reveal-words">Travaillons ensemble.</h2>
         <p class="contact__lead reveal-up">Branding, packaging, communication visuelle, design digital&nbsp;? J'ai hâte de m'y mettre. Un petit message et je vous réponds vite, avec le sourire.</p>
 
@@ -374,6 +377,9 @@
       </footer>
     </section>
   </main>
+
+  <!-- Vue plein écran des projets (hors de <main> pour rester au-dessus de la nav) -->
+  <div class="detail-layer" id="detailLayer" aria-hidden="true"></div>
 
   <script type="module" src="main.js"></script>
   <script>

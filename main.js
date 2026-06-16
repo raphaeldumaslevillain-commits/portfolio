@@ -10,6 +10,8 @@ import { initHeroShader } from "./hero-shader.js";
 import { initBox } from "./box.js";
 import { initScrollReveals } from "./scroll-reveals.js";
 import { initProjectsDeck } from "./projects-deck.js";
+import { initBackground3D } from "./background-3d.js";
+import { initThemes } from "./theme.js";
 
 gsap.registerPlugin(ScrollTrigger, Flip);
 const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -148,6 +150,8 @@ if (window.matchMedia("(hover: hover)").matches && !reduce) {
 }
 
 /* ---------- Lancement des modules ---------- */
+const bg3d = initBackground3D();
+initThemes({ ScrollTrigger, bg3d, reduce });
 initBox();
 initHeroShader();
 initScrollReveals({ gsap, ScrollTrigger, reduce });

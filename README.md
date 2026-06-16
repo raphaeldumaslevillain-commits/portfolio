@@ -77,6 +77,8 @@ styles.css         Design, mise en page, animations
 main.js            Orchestrateur : Lenis (smooth scroll) + GSAP + UI (curseur, nav, compteurs)
 hero-shader.js     Portrait plein écran, effet liquide WebGL (Three.js, shader GLSL)
 box.js             Boîte de macarons 3D Moki! (Three.js + OrbitControls)
+background-3d.js   Fond 3D global : particules + objet filaire qui tourne au scroll
+theme.js           Direction artistique par section (accent + teinte + couleur 3D)
 projects-deck.js   Deck de cartes : dépliage au scroll (pin/scrub) + plein écran via GSAP Flip
 scroll-reveals.js  Reveals au scroll (GSAP ScrollTrigger), reveal du hero, parallax, progression
 ```

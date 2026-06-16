@@ -18,6 +18,14 @@
   --font-body: "Inter", sans-serif;
 }
 
+/* Accent animable (direction artistique par section) */
+@property --accent {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #ff5c39;
+}
+:root { transition: --accent 0.8s ease; }
+
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
 /* Lenis (smooth scroll) — styles recommandés */
@@ -34,7 +42,19 @@ body {
   line-height: 1.6;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
+  transition: background-color 0.9s ease;
 }
+
+/* ---------- Fonds : ambiance + 3D ---------- */
+.bg-grad {
+  position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background:
+    radial-gradient(60% 45% at 50% 22%, color-mix(in srgb, var(--accent) 16%, transparent), transparent 70%),
+    radial-gradient(45% 40% at 85% 90%, color-mix(in srgb, var(--accent) 10%, transparent), transparent 70%);
+}
+.bg3d { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
+.bg3d canvas { display: block; }
+main { position: relative; z-index: 1; }
 
 a { color: inherit; text-decoration: none; }
 strong { color: var(--fg); font-weight: 600; }
@@ -239,8 +259,8 @@ section { padding: clamp(5rem, 12vh, 10rem) clamp(1.2rem, 4vw, 3.5rem); position
   background: var(--line); max-width: var(--max); margin: 0 auto;
   border: 1px solid var(--line); border-radius: 18px; overflow: hidden;
 }
-.stat { background: var(--bg); padding: 2.5rem 2rem; display: flex; flex-direction: column; gap: .4rem; transition: background .4s; }
-.stat:hover { background: var(--bg-soft); }
+.stat { background: rgba(10,10,12,0.55); padding: 2.5rem 2rem; display: flex; flex-direction: column; gap: .4rem; transition: background .4s; backdrop-filter: blur(4px); }
+.stat:hover { background: rgba(20,20,24,0.7); }
 .stat__num { font-family: var(--font-display); font-weight: 800; font-size: clamp(2.4rem, 5vw, 4rem); line-height: 1; letter-spacing: -0.03em; }
 .stat__num--small { font-size: clamp(1.1rem, 2.2vw, 1.6rem); line-height: 1.2; }
 .stat__suffix { display: inline; }
@@ -385,7 +405,7 @@ section { padding: clamp(5rem, 12vh, 10rem) clamp(1.2rem, 4vw, 3.5rem); position
 .skills__col li:last-child { border-bottom: 0; }
 
 /* ---------- AI ---------- */
-.ai { background: var(--bg-soft); border-radius: 0; overflow: hidden; }
+.ai { background: rgba(13,10,23,0.55); border-radius: 0; overflow: hidden; backdrop-filter: blur(2px); }
 .ai__glow {
   position: absolute; top: 20%; left: 50%; transform: translateX(-50%);
   width: 60vw; height: 60vw; max-width: 700px; max-height: 700px;
@@ -492,6 +512,19 @@ a.contact__card:hover .contact__card-arrow { transform: translate(3px, -3px); }
 .anim .r-up, .anim .r-down, .anim .r-left, .anim .r-right { opacity: 0; }
 .reveal-words .word { display: inline-block; overflow: hidden; }
 .reveal-words .word-inner { display: inline-block; will-change: transform; }
+
+/* ---------- Survols accentués (direction artistique) ---------- */
+.deck__card { transition: border-color .4s, box-shadow .4s; }
+.deck__card:hover { border-color: var(--accent); box-shadow: 0 30px 70px color-mix(in srgb, var(--accent) 22%, transparent); }
+.deck__card:hover .deck__card-title { color: var(--accent); }
+.deck__card-media::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none; opacity: 0;
+  background: linear-gradient(115deg, transparent 45%, color-mix(in srgb, var(--accent) 42%, transparent));
+  mix-blend-mode: screen; transition: opacity .45s var(--ease);
+}
+.deck__card:hover .deck__card-media::after { opacity: 1; }
+.skills__col:hover { border-color: var(--accent); }
+.ai__card:hover { border-color: var(--accent); }
 
 /* ---------- Responsive ---------- */
 @media (max-width: 960px) {
