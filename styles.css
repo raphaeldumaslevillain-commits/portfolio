@@ -533,8 +533,7 @@ a.contact__card:hover .contact__card-arrow { transform: translate(3px, -3px); }
    ============================================================ */
 .scene-fx { position: fixed; inset: 0; z-index: 0; pointer-events: none; opacity: 0; transition: opacity .8s ease; }
 
-/* PROJETS — éditorial / tech : mono + grille bleue */
-body[data-theme="projects"] { --font-display: "Space Mono", monospace; --font-head: "Space Mono", monospace; }
+/* PROJETS — éditorial / tech : grille bleue */
 body[data-theme="projects"] .section__title { letter-spacing: -0.01em; }
 body[data-theme="projects"] .scene-fx {
   opacity: 1;
@@ -546,8 +545,7 @@ body[data-theme="projects"] .scene-fx {
   mask-image: radial-gradient(circle at 50% 40%, #000, transparent 82%);
 }
 
-/* BOÎTE — packaging premium : serif Fraunces + pois doux */
-body[data-theme="box"] { --font-display: "Fraunces", serif; }
+/* BOÎTE — packaging premium : pois doux + titres rosés */
 body[data-theme="box"] .section__title { letter-spacing: -0.01em; color: #ffe6ed; }
 body[data-theme="box"] .scene-fx {
   opacity: 1;
@@ -557,8 +555,7 @@ body[data-theme="box"] .scene-fx {
   mask-image: radial-gradient(circle at 50% 40%, #000, transparent 78%);
 }
 
-/* IA — futuriste : mono + néon + scanlines */
-body[data-theme="ai"] { --font-display: "Space Mono", monospace; --font-head: "Space Mono", monospace; }
+/* IA — futuriste : néon + scanlines */
 body[data-theme="ai"] .section__title { color: #d6c9ff; text-shadow: 0 0 32px color-mix(in srgb, var(--accent) 65%, transparent); }
 body[data-theme="ai"] .ai__card h3 { text-shadow: 0 0 18px color-mix(in srgb, var(--accent) 45%, transparent); }
 body[data-theme="ai"] .scene-fx {
@@ -566,8 +563,7 @@ body[data-theme="ai"] .scene-fx {
   background-image: repeating-linear-gradient(0deg, transparent 0 3px, color-mix(in srgb, var(--accent) 10%, transparent) 3px 4px);
 }
 
-/* COMPÉTENCES — blueprint teal : mono + grille fine */
-body[data-theme="skills"] { --font-head: "Space Mono", monospace; }
+/* COMPÉTENCES — blueprint teal : grille fine */
 body[data-theme="skills"] .scene-fx {
   opacity: 1;
   background-image:
@@ -576,8 +572,7 @@ body[data-theme="skills"] .scene-fx {
   background-size: 32px 32px;
 }
 
-/* PARCOURS — éditorial élégant : serif */
-body[data-theme="journey"] { --font-display: "Fraunces", serif; }
+/* PARCOURS — éditorial élégant : titres rosés */
 body[data-theme="journey"] .section__title { color: #ffe0f1; }
 
 /* CHIFFRES — typographie massive accentuée */
