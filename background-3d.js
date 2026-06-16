@@ -49,17 +49,38 @@ export function initBackground3D() {
   const points = new THREE.Points(pGeo, pMat);
   scene.add(points);
 
-  // --- Objet filaire (décalé sur le côté pour ne pas gêner la lecture) ---
-  const oGeo = new THREE.IcosahedronGeometry(2.5, 1);
-  const oMat = new THREE.MeshBasicMaterial({ color, wireframe: true, transparent: true, opacity: 0.32 });
-  const obj = new THREE.Mesh(oGeo, oMat);
+  // --- Objet filaire (CHANGE DE FORME selon la section) ---
+  function makeGeo(id) {
+    switch (id) {
+      case "box":      return new THREE.TorusGeometry(2.3, 0.72, 18, 90);          // anneau (packaging)
+      case "projects": return new THREE.BoxGeometry(3, 3, 3, 3, 3, 3);             // cube maillé (éditorial)
+      case "stats":    return new THREE.OctahedronGeometry(2.9, 0);                // octaèdre
+      case "about":    return new THREE.TorusKnotGeometry(1.7, 0.5, 180, 20);      // nœud
+      case "skills":   return new THREE.DodecahedronGeometry(2.7, 0);              // dodécaèdre
+      case "ai":       return new THREE.TorusKnotGeometry(1.55, 0.42, 240, 28, 2, 3); // nœud complexe
+      case "journey":  return new THREE.ConeGeometry(2.4, 3.4, 6, 3);              // prisme
+      case "contact":  return new THREE.IcosahedronGeometry(2.7, 1);
+      default:         return new THREE.TorusKnotGeometry(2.0, 0.55, 200, 24);     // hero
+    }
+  }
+  const oMat = new THREE.MeshBasicMaterial({ color, wireframe: true, transparent: true, opacity: 0.34 });
+  const obj = new THREE.Mesh(makeGeo("hero"), oMat);
   obj.position.set(3.4, 0.4, -1.5);
   scene.add(obj);
 
-  const oGeo2 = new THREE.IcosahedronGeometry(1.35, 0);
-  const obj2 = new THREE.Mesh(oGeo2, new THREE.MeshBasicMaterial({ color, wireframe: true, transparent: true, opacity: 0.2 }));
+  const obj2 = new THREE.Mesh(
+    new THREE.IcosahedronGeometry(1.15, 0),
+    new THREE.MeshBasicMaterial({ color, wireframe: true, transparent: true, opacity: 0.18 })
+  );
   obj2.position.copy(obj.position);
   scene.add(obj2);
+
+  const ONE = new THREE.Vector3(1, 1, 1);
+  function setShape(id) {
+    obj.geometry.dispose();
+    obj.geometry = makeGeo(id);
+    obj.scale.setScalar(0.12); // "pop" : repart petit puis grossit (lerp dans la boucle)
+  }
 
   // --- Souris (parallax) ---
   const mouse = { x: 0, y: 0, tx: 0, ty: 0 };
@@ -94,9 +115,10 @@ export function initBackground3D() {
     oMat.color.copy(color);
     obj2.material.color.copy(color);
 
-    obj.rotation.y = sp * Math.PI * 4 + t * 0.05;
-    obj.rotation.x = sp * Math.PI * 2;
-    obj2.rotation.y = -sp * Math.PI * 3 - t * 0.08;
+    obj.scale.lerp(ONE, 0.08); // animation du "pop"
+    obj.rotation.y = sp * Math.PI * 4 + t * 0.1;
+    obj.rotation.x = sp * Math.PI * 2 + t * 0.05;
+    obj2.rotation.y = -sp * Math.PI * 3 - t * 0.12;
     obj2.rotation.z = sp * Math.PI * 2;
     points.rotation.y = t * 0.02 + sp * 0.6;
 
@@ -113,5 +135,6 @@ export function initBackground3D() {
 
   return {
     setColor(hex) { target.set(hex); },
+    setShape,
   };
 }

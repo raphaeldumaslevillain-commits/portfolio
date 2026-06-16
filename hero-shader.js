@@ -1,81 +1,110 @@
 /* ============================================================
-   hero-shader.js — Portrait plein écran avec effet liquide (WebGL / Three.js)
-   Une onde part du curseur et déforme l'image + applique une gradient map
-   localement. Réutilise Three.js (déjà chargé pour la boîte).
+   hero-shader.js — Masse liquide organique qui suit le curseur et
+   rend l'image en NÉGATIF en dessous (fragment shader GLSL, Three.js).
+   Bords vivants via FBM, inertie (lerp), réfraction + liseré lumineux.
    ============================================================ */
 import * as THREE from "three";
 
-/* ---- Réglages du feeling (ajuste librement) ---- */
-const FREQ = 26.0;     // fréquence des ondulations
-const SPEED = 3.2;     // vitesse de propagation
-const DECAY = 7.0;     // atténuation avec la distance (plus haut = plus localisé)
-const AMPLITUDE = 0.06;// force du déplacement liquide
-const INTENSITE = 2.4; // dosage de la gradient map dans la zone touchée
+/* ---- Image de fond (remplace facilement par ton URL/fichier) ---- */
+const IMAGE = "portrait.png";
 
-/* ---- Dégradé de la courbe de transfert (2–3 couleurs) ---- */
-const GRAD = [
-  new THREE.Color("#ff5c39"),
-  new THREE.Color("#6c5ce7"),
-  new THREE.Color("#00d4a0"),
-];
+/* ---- Réglages du feeling ---- */
+const LERP = 0.1;          // inertie du suivi souris (0.08–0.12)
+const BASE_RADIUS = 0.22;  // taille de la masse
+const EDGE = 0.10;         // douceur du bord (smoothstep)
+const NOISE_AMP = 0.07;    // amplitude des ondulations de bord
+const REFRACT = 0.05;      // réfraction (effet loupe/eau) près des bords
+const RIM = 6.0;           // intensité du liseré lumineux (tension de surface)
+const IDLE = 0.014;        // pulsation au repos
 
 const VERT = `
   varying vec2 vUv;
-  void main() {
-    vUv = uv;
-    gl_Position = vec4(position.xy, 0.0, 1.0);
-  }
+  void main() { vUv = uv; gl_Position = vec4(position.xy, 0.0, 1.0); }
 `;
 
 const FRAG = `
   precision highp float;
   varying vec2 vUv;
-  uniform sampler2D uTexture;
-  uniform vec2  uMouse;
+  uniform sampler2D uTex;
+  uniform vec2  uMouse;     // position souris en UV (0..1), lissée
   uniform float uTime;
-  uniform float uHover;
-  uniform float uAspect;       // ratio écran (x/y) -> ondes circulaires
-  uniform float uImageAspect;  // ratio de l'image -> cover
-  uniform vec3  uGrad0;
-  uniform vec3  uGrad1;
-  uniform vec3  uGrad2;
+  uniform float uAspect;    // ratio écran (x/y)
+  uniform float uImgAspect; // ratio image
 
-  vec3 gradientMap(float t) {
-    t = clamp(t, 0.0, 1.0);
-    if (t < 0.5) return mix(uGrad0, uGrad1, t * 2.0);
-    return mix(uGrad1, uGrad2, (t - 0.5) * 2.0);
+  /* ---------- simplex noise 2D (Ashima Arts) ---------- */
+  vec3 mod289(vec3 x){ return x - floor(x * (1.0/289.0)) * 289.0; }
+  vec2 mod289(vec2 x){ return x - floor(x * (1.0/289.0)) * 289.0; }
+  vec3 permute(vec3 x){ return mod289(((x*34.0)+1.0)*x); }
+  float snoise(vec2 v){
+    const vec4 C = vec4(0.211324865405187, 0.366025403784439, -0.577350269189626, 0.024390243902439);
+    vec2 i  = floor(v + dot(v, C.yy));
+    vec2 x0 = v -   i + dot(i, C.xx);
+    vec2 i1 = (x0.x > x0.y) ? vec2(1.0, 0.0) : vec2(0.0, 1.0);
+    vec4 x12 = x0.xyxy + C.xxzz; x12.xy -= i1;
+    i = mod289(i);
+    vec3 p = permute( permute( i.y + vec3(0.0, i1.y, 1.0)) + i.x + vec3(0.0, i1.x, 1.0));
+    vec3 m = max(0.5 - vec3(dot(x0,x0), dot(x12.xy,x12.xy), dot(x12.zw,x12.zw)), 0.0);
+    m = m*m; m = m*m;
+    vec3 x = 2.0 * fract(p * C.www) - 1.0;
+    vec3 h = abs(x) - 0.5;
+    vec3 ox = floor(x + 0.5);
+    vec3 a0 = x - ox;
+    m *= 1.79284291400159 - 0.85373472095314 * (a0*a0 + h*h);
+    vec3 g;
+    g.x  = a0.x  * x0.x  + h.x  * x0.y;
+    g.yz = a0.yz * x12.xz + h.yz * x12.yw;
+    return 130.0 * dot(m, g);
+  }
+  /* ---------- FBM (5 octaves) ---------- */
+  float fbm(vec2 p){
+    float v = 0.0, a = 0.5;
+    for (int i = 0; i < 5; i++) { v += a * snoise(p); p *= 2.0; a *= 0.5; }
+    return v;
   }
 
-  void main() {
-    // --- cover : on garde le ratio de l'image quel que soit l'écran ---
+  /* champ du masque (1 au centre, 0 dehors), bords organiques */
+  float maskField(vec2 pos, vec2 m){
+    vec2 d = pos - m;
+    float dist = length(d);
+    float ang = atan(d.y, d.x);
+    float wob  = fbm(vec2(cos(ang), sin(ang)) * 1.6 + uTime * 0.25); // ondulation du contour
+    float blob = fbm(pos * 2.2 - uTime * 0.15);                       // déformation de la matière
+    float radius = ${BASE_RADIUS.toFixed(3)} + wob * ${NOISE_AMP.toFixed(3)} + blob * 0.04 + sin(uTime * 1.2) * ${IDLE.toFixed(3)};
+    return 1.0 - smoothstep(radius, radius + ${EDGE.toFixed(3)}, dist);
+  }
+
+  void main(){
+    // --- cover (ratio image préservé) ---
     vec2 st = vUv;
-    if (uAspect > uImageAspect) {
-      st.y = (vUv.y - 0.5) * (uImageAspect / uAspect) + 0.5;
-    } else {
-      st.x = (vUv.x - 0.5) * (uAspect / uImageAspect) + 0.5;
-    }
+    if (uAspect > uImgAspect) { st.y = (vUv.y - 0.5) * (uImgAspect / uAspect) + 0.5; }
+    else                      { st.x = (vUv.x - 0.5) * (uAspect / uImgAspect) + 0.5; }
 
-    // --- onde liquide en espace corrigé par l'aspect (cercles, pas ovales) ---
-    vec2 p = vec2(vUv.x * uAspect, vUv.y);
-    vec2 m = vec2(uMouse.x * uAspect, uMouse.y);
-    float d = distance(p, m);
-    float wave = sin(d * ${FREQ.toFixed(1)} - uTime * ${SPEED.toFixed(1)}) * exp(-d * ${DECAY.toFixed(1)});
-    float influence = wave * uHover;
+    // --- espace corrigé par l'aspect (masse ronde, pas ovale) ---
+    vec2 pos = vec2(vUv.x * uAspect, vUv.y);
+    vec2 m   = vec2(uMouse.x * uAspect, uMouse.y);
 
-    vec2 dir = normalize(p - m + 1e-5);
-    vec2 disp = dir * influence * ${AMPLITUDE.toFixed(3)};
-    disp.x /= uAspect; // retour en espace UV
-    vec2 uvD = st + disp;
+    float mask = maskField(pos, m);
 
-    vec4 color = texture2D(uTexture, uvD);
+    // gradient du masque -> réfraction + liseré
+    float e = 0.0028;
+    vec2 grad = vec2(
+      maskField(pos + vec2(e, 0.0), m) - maskField(pos - vec2(e, 0.0), m),
+      maskField(pos + vec2(0.0, e), m) - maskField(pos - vec2(0.0, e), m)
+    );
 
-    // --- gradient map locale ---
-    float lum = dot(color.rgb, vec3(0.299, 0.587, 0.114));
-    vec3 graded = gradientMap(lum);
-    float k = clamp(abs(influence) * ${INTENSITE.toFixed(2)}, 0.0, 1.0);
-    vec3 finalColor = mix(color.rgb, graded, k);
+    // réfraction près des bords (effet eau/loupe)
+    vec2 refr = grad * ${REFRACT.toFixed(3)};
+    vec3 base = texture2D(uTex, st + refr).rgb;
 
-    gl_FragColor = vec4(finalColor, 1.0);
+    // inversion (négatif) à l'intérieur de la masse
+    vec3 inv = 1.0 - base;
+    vec3 col = mix(base, inv, mask);
+
+    // liseré lumineux (tension de surface)
+    float rim = clamp(length(grad) * ${RIM.toFixed(1)}, 0.0, 1.0);
+    col += rim * vec3(0.95, 0.97, 1.0) * 0.9;
+
+    gl_FragColor = vec4(col, 1.0);
   }
 `;
 
@@ -84,9 +113,8 @@ export function initHeroShader() {
   if (!stage) return null;
 
   const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const coarse = window.matchMedia("(hover: none), (pointer: coarse)").matches;
 
-  // WebGL dispo ?
+  // WebGL indispo ou reduced-motion -> image statique (fallback CSS)
   let renderer;
   try {
     renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false, powerPreference: "high-performance" });
@@ -94,8 +122,6 @@ export function initHeroShader() {
     document.querySelector(".hero")?.classList.add("no-webgl");
     return null;
   }
-
-  // En reduced-motion : on laisse le fallback CSS (image statique), pas de WebGL.
   if (reduce) {
     document.querySelector(".hero")?.classList.add("no-webgl");
     return null;
@@ -110,50 +136,37 @@ export function initHeroShader() {
   const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
 
   const uniforms = {
-    uTexture: { value: null },
+    uTex: { value: null },
     uMouse: { value: new THREE.Vector2(0.5, 0.5) },
     uTime: { value: 0 },
-    uHover: { value: coarse ? 0.55 : 0 },
     uAspect: { value: stage.clientWidth / stage.clientHeight },
-    uImageAspect: { value: 0.75 },
-    uGrad0: { value: GRAD[0] },
-    uGrad1: { value: GRAD[1] },
-    uGrad2: { value: GRAD[2] },
+    uImgAspect: { value: 0.75 },
   };
-
   const material = new THREE.ShaderMaterial({ vertexShader: VERT, fragmentShader: FRAG, uniforms });
-  const mesh = new THREE.Mesh(new THREE.PlaneGeometry(2, 2), material);
-  scene.add(mesh);
+  scene.add(new THREE.Mesh(new THREE.PlaneGeometry(2, 2), material));
 
-  // Texture portrait
   new THREE.TextureLoader().load(
-    "portrait.png",
+    IMAGE,
     (tex) => {
       tex.colorSpace = THREE.SRGBColorSpace;
-      uniforms.uTexture.value = tex;
-      uniforms.uImageAspect.value = tex.image.width / tex.image.height;
+      tex.minFilter = THREE.LinearFilter;
+      uniforms.uTex.value = tex;
+      uniforms.uImgAspect.value = tex.image.width / tex.image.height;
     },
     undefined,
-    () => {
-      // Pas d'image -> on bascule sur le fallback CSS
-      document.querySelector(".hero")?.classList.add("no-webgl");
-      stop();
-    }
+    () => { document.querySelector(".hero")?.classList.add("no-webgl"); stop(); }
   );
 
-  // Souris (lissée par lerp)
+  // --- pointeur (souris + tactile), lissé par lerp ---
   const target = new THREE.Vector2(0.5, 0.5);
-  let targetHover = coarse ? 0.55 : 0;
-
-  function onMove(e) {
+  function setFromEvent(clientX, clientY) {
     const r = stage.getBoundingClientRect();
-    target.set((e.clientX - r.left) / r.width, 1.0 - (e.clientY - r.top) / r.height);
+    target.set((clientX - r.left) / r.width, 1.0 - (clientY - r.top) / r.height);
   }
-  if (!coarse) {
-    stage.addEventListener("mousemove", onMove);
-    stage.addEventListener("mouseenter", () => (targetHover = 1));
-    stage.addEventListener("mouseleave", () => (targetHover = 0));
-  }
+  stage.addEventListener("mousemove", (e) => setFromEvent(e.clientX, e.clientY));
+  stage.addEventListener("touchmove", (e) => {
+    if (e.touches[0]) setFromEvent(e.touches[0].clientX, e.touches[0].clientY);
+  }, { passive: true });
 
   function resize() {
     const w = stage.clientWidth, h = stage.clientHeight;
@@ -162,44 +175,25 @@ export function initHeroShader() {
   }
   window.addEventListener("resize", resize);
 
-  // Boucle gérée par visibilité (pause hors écran)
-  let running = false;
-  let raf = 0;
+  let running = false, raf = 0;
   const clock = new THREE.Clock();
-
   function frame() {
     if (!running) return;
-    const dt = clock.getDelta();
-    uniforms.uTime.value += dt;
-
-    // suivi auto sur tactile
-    if (coarse) {
-      const t = uniforms.uTime.value;
-      target.set(0.5 + Math.sin(t * 0.6) * 0.22, 0.5 + Math.cos(t * 0.45) * 0.22);
-    }
-    uniforms.uMouse.value.lerp(target, 0.08);
-    uniforms.uHover.value += (targetHover - uniforms.uHover.value) * 0.06;
-
+    uniforms.uTime.value += clock.getDelta();
+    uniforms.uMouse.value.lerp(target, LERP); // inertie / traînée
     renderer.render(scene, camera);
     raf = requestAnimationFrame(frame);
   }
-  function start() {
-    if (running) return;
-    running = true;
-    clock.getDelta();
-    raf = requestAnimationFrame(frame);
-  }
-  function stop() {
-    running = false;
-    cancelAnimationFrame(raf);
-  }
+  function start() { if (running) return; running = true; clock.getDelta(); raf = requestAnimationFrame(frame); }
+  function stop() { running = false; cancelAnimationFrame(raf); }
 
-  // Pause quand le hero sort de l'écran
+  // pause hors écran + onglet masqué (perf)
   const io = new IntersectionObserver(
-    (entries) => entries.forEach((en) => (en.isIntersecting ? start() : stop())),
+    (en) => en.forEach((x) => (x.isIntersecting && !document.hidden ? start() : stop())),
     { threshold: 0.02 }
   );
   io.observe(document.querySelector(".hero"));
+  document.addEventListener("visibilitychange", () => (document.hidden ? stop() : start()));
 
   return { start, stop };
 }

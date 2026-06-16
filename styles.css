@@ -526,6 +526,62 @@ a.contact__card:hover .contact__card-arrow { transform: translate(3px, -3px); }
 .skills__col:hover { border-color: var(--accent); }
 .ai__card:hover { border-color: var(--accent); }
 
+/* ============================================================
+   DIRECTION ARTISTIQUE PAR SECTION — change de style, pas juste de couleur
+   (typo, couleur de texte, lumière, motif de fond)
+   ============================================================ */
+.scene-fx { position: fixed; inset: 0; z-index: 0; pointer-events: none; opacity: 0; transition: opacity .8s ease; }
+
+/* PROJETS — éditorial / tech : mono + grille bleue */
+body[data-theme="projects"] { --font-display: "Space Mono", monospace; --font-head: "Space Mono", monospace; }
+body[data-theme="projects"] .section__title { letter-spacing: -0.01em; }
+body[data-theme="projects"] .scene-fx {
+  opacity: 1;
+  background-image:
+    linear-gradient(color-mix(in srgb, var(--accent) 14%, transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in srgb, var(--accent) 14%, transparent) 1px, transparent 1px);
+  background-size: 56px 56px;
+  -webkit-mask-image: radial-gradient(circle at 50% 40%, #000, transparent 82%);
+  mask-image: radial-gradient(circle at 50% 40%, #000, transparent 82%);
+}
+
+/* BOÎTE — packaging premium : serif Fraunces + pois doux */
+body[data-theme="box"] { --font-display: "Fraunces", serif; }
+body[data-theme="box"] .section__title { letter-spacing: -0.01em; color: #ffe6ed; }
+body[data-theme="box"] .scene-fx {
+  opacity: 1;
+  background-image: radial-gradient(color-mix(in srgb, var(--accent) 18%, transparent) 1.6px, transparent 1.7px);
+  background-size: 28px 28px;
+  -webkit-mask-image: radial-gradient(circle at 50% 40%, #000, transparent 78%);
+  mask-image: radial-gradient(circle at 50% 40%, #000, transparent 78%);
+}
+
+/* IA — futuriste : mono + néon + scanlines */
+body[data-theme="ai"] { --font-display: "Space Mono", monospace; --font-head: "Space Mono", monospace; }
+body[data-theme="ai"] .section__title { color: #d6c9ff; text-shadow: 0 0 32px color-mix(in srgb, var(--accent) 65%, transparent); }
+body[data-theme="ai"] .ai__card h3 { text-shadow: 0 0 18px color-mix(in srgb, var(--accent) 45%, transparent); }
+body[data-theme="ai"] .scene-fx {
+  opacity: 1;
+  background-image: repeating-linear-gradient(0deg, transparent 0 3px, color-mix(in srgb, var(--accent) 10%, transparent) 3px 4px);
+}
+
+/* COMPÉTENCES — blueprint teal : mono + grille fine */
+body[data-theme="skills"] { --font-head: "Space Mono", monospace; }
+body[data-theme="skills"] .scene-fx {
+  opacity: 1;
+  background-image:
+    linear-gradient(color-mix(in srgb, var(--accent) 11%, transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in srgb, var(--accent) 11%, transparent) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+
+/* PARCOURS — éditorial élégant : serif */
+body[data-theme="journey"] { --font-display: "Fraunces", serif; }
+body[data-theme="journey"] .section__title { color: #ffe0f1; }
+
+/* CHIFFRES — typographie massive accentuée */
+body[data-theme="stats"] .stat__num { color: var(--accent); }
+
 /* ---------- Responsive ---------- */
 @media (max-width: 960px) {
   .nav__links, .nav__cta { display: none; }

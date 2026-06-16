@@ -26,7 +26,7 @@ export function initThemes({ ScrollTrigger, bg3d, reduce }) {
     root.style.setProperty("--accent", th.accent);
     document.body.style.backgroundColor = th.bg;
     document.body.dataset.theme = id;
-    bg3d && bg3d.setColor(th.accent);
+    if (bg3d) { bg3d.setColor(th.accent); bg3d.setShape(id); }
   }
 
   apply("hero");
