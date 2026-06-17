@@ -35,6 +35,16 @@ export function initScrollReveals({ gsap, ScrollTrigger, reduce }) {
     tl.fromTo(right, { x: 120, autoAlpha: 0 }, { x: 0, autoAlpha: 1, ease: "expo.out", duration: 0.5, stagger: 0.1 }, 0.18);
   }
 
+  /* ---- Ancre IA : section épinglée, les cartes se révèlent au scroll ---- */
+  const ai = document.querySelector("#ai");
+  const aiCards = ai ? ai.querySelectorAll(".ai__card") : [];
+  if (ai && aiCards.length) {
+    gsap.set(aiCards, { autoAlpha: 0, y: 80, rotationX: -25, transformOrigin: "50% 100%" });
+    gsap.timeline({
+      scrollTrigger: { trigger: ai, start: "top top", end: "+=130%", pin: true, scrub: 1, anticipatePin: 1 },
+    }).to(aiCards, { autoAlpha: 1, y: 0, rotationX: 0, stagger: 0.5, ease: "power2.out" });
+  }
+
   /* ---- Titres mot par mot (.reveal-words) ---- */
   document.querySelectorAll(".reveal-words").forEach((el) => {
     const words = el.textContent.trim().split(/\s+/);

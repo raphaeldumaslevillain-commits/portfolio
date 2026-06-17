@@ -11,7 +11,6 @@ import { initBox } from "./box.js";
 import { initScrollReveals } from "./scroll-reveals.js";
 import { initProjectsDeck } from "./projects-deck.js";
 import { initWorld } from "./world.js";
-import { initThemes } from "./theme.js";
 
 gsap.registerPlugin(ScrollTrigger, Flip);
 const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -151,7 +150,6 @@ if (window.matchMedia("(hover: hover)").matches && !reduce) {
 
 /* ---------- Lancement des modules ---------- */
 initWorld();
-initThemes({ ScrollTrigger, reduce });
 initBox();
 initHeroShader();
 initScrollReveals({ gsap, ScrollTrigger, reduce });

@@ -24,8 +24,6 @@
   inherits: true;
   initial-value: #ff5c39;
 }
-:root { transition: --accent 0.8s ease; }
-
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
 /* Lenis (smooth scroll) — styles recommandés */
@@ -42,7 +40,6 @@ body {
   line-height: 1.6;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
-  transition: background-color 0.9s ease;
 }
 
 /* ---------- Fonds : ambiance + 3D ---------- */
@@ -413,7 +410,7 @@ section { padding: clamp(5rem, 12vh, 10rem) clamp(1.2rem, 4vw, 3.5rem); position
   filter: blur(40px); pointer-events: none;
 }
 .ai__lead { max-width: var(--max); margin: 0 auto 3rem; font-size: clamp(1.1rem, 2vw, 1.5rem); color: #cfcdc7; max-width: 60ch; }
-.ai__cards { max-width: var(--max); margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.2rem; }
+.ai__cards { max-width: var(--max); margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.2rem; perspective: 1000px; }
 .ai__card {
   border: 1px solid var(--line); border-radius: 18px; padding: 1.8rem; position: relative; overflow: hidden;
   background: rgba(255,255,255,0.02); transition: transform .4s var(--ease), border-color .4s;
@@ -527,57 +524,6 @@ a.contact__card:hover .contact__card-arrow { transform: translate(3px, -3px); }
 .deck__card:hover .deck__card-media::after { opacity: 1; }
 .skills__col:hover { border-color: var(--accent); }
 .ai__card:hover { border-color: var(--accent); }
-
-/* ============================================================
-   DIRECTION ARTISTIQUE PAR SECTION — change de style, pas juste de couleur
-   (typo, couleur de texte, lumière, motif de fond)
-   ============================================================ */
-.scene-fx { position: fixed; inset: 0; z-index: 0; pointer-events: none; opacity: 0; transition: opacity .8s ease; }
-
-/* PROJETS — éditorial / tech : grille bleue */
-body[data-theme="projects"] .section__title { letter-spacing: -0.01em; }
-body[data-theme="projects"] .scene-fx {
-  opacity: 1;
-  background-image:
-    linear-gradient(color-mix(in srgb, var(--accent) 14%, transparent) 1px, transparent 1px),
-    linear-gradient(90deg, color-mix(in srgb, var(--accent) 14%, transparent) 1px, transparent 1px);
-  background-size: 56px 56px;
-  -webkit-mask-image: radial-gradient(circle at 50% 40%, #000, transparent 82%);
-  mask-image: radial-gradient(circle at 50% 40%, #000, transparent 82%);
-}
-
-/* BOÎTE — packaging premium : pois doux + titres rosés */
-body[data-theme="box"] .section__title { letter-spacing: -0.01em; color: #ffe6ed; }
-body[data-theme="box"] .scene-fx {
-  opacity: 1;
-  background-image: radial-gradient(color-mix(in srgb, var(--accent) 18%, transparent) 1.6px, transparent 1.7px);
-  background-size: 28px 28px;
-  -webkit-mask-image: radial-gradient(circle at 50% 40%, #000, transparent 78%);
-  mask-image: radial-gradient(circle at 50% 40%, #000, transparent 78%);
-}
-
-/* IA — futuriste : néon + scanlines */
-body[data-theme="ai"] .section__title { color: #d6c9ff; text-shadow: 0 0 32px color-mix(in srgb, var(--accent) 65%, transparent); }
-body[data-theme="ai"] .ai__card h3 { text-shadow: 0 0 18px color-mix(in srgb, var(--accent) 45%, transparent); }
-body[data-theme="ai"] .scene-fx {
-  opacity: 1;
-  background-image: repeating-linear-gradient(0deg, transparent 0 3px, color-mix(in srgb, var(--accent) 10%, transparent) 3px 4px);
-}
-
-/* COMPÉTENCES — blueprint teal : grille fine */
-body[data-theme="skills"] .scene-fx {
-  opacity: 1;
-  background-image:
-    linear-gradient(color-mix(in srgb, var(--accent) 11%, transparent) 1px, transparent 1px),
-    linear-gradient(90deg, color-mix(in srgb, var(--accent) 11%, transparent) 1px, transparent 1px);
-  background-size: 32px 32px;
-}
-
-/* PARCOURS — éditorial élégant : titres rosés */
-body[data-theme="journey"] .section__title { color: #ffe0f1; }
-
-/* CHIFFRES — typographie massive accentuée */
-body[data-theme="stats"] .stat__num { color: var(--accent); }
 
 /* ---------- Responsive ---------- */
 @media (max-width: 960px) {
