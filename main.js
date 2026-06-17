@@ -155,5 +155,13 @@ initHeroShader();
 initScrollReveals({ gsap, ScrollTrigger, reduce });
 initProjectsDeck({ gsap, ScrollTrigger, Flip, lenis, reduce });
 
+// Recalcule les positions des pins (hero/projets) une fois tout en place :
+// après le layout, au chargement complet et quand les polices sont prêtes.
+function refreshTriggers() { ScrollTrigger.refresh(); }
+requestAnimationFrame(refreshTriggers);
+window.addEventListener("load", refreshTriggers);
+if (document.fonts && document.fonts.ready) document.fonts.ready.then(refreshTriggers);
+setTimeout(refreshTriggers, 800);
+
 // Tout est initialisé : on signale que l'app est prête (filet de sécurité du <head>).
 document.documentElement.classList.add("app-ready");

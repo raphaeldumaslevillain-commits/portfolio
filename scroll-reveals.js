@@ -1,31 +1,31 @@
 /* ============================================================
-   scroll-reveals.js — Animations de scroll (GSAP + ScrollTrigger)
-   Reveals du hero depuis les côtés, apparitions de sections,
-   parallax léger, barre de progression. Restreint : timing + stagger.
+   scroll-reveals.js — Apparitions au scroll.
+   IMPORTANT : les reveals utilisent un IntersectionObserver (basé sur la
+   visibilité RÉELLE des éléments) et non les positions de ScrollTrigger,
+   qui se désynchronisent avec les sections épinglées (pins). Résultat :
+   aucune apparition ne peut rester "coincée" invisible.
+   ScrollTrigger ne sert plus qu'au hero (pin) et au parallax/progression.
    ============================================================ */
 
 export function initScrollReveals({ gsap, ScrollTrigger, reduce }) {
-  /* ---- Barre de progression (toujours active) ---- */
+  /* ---- Barre de progression (ne masque rien) ---- */
   const bar = document.getElementById("scrollProgress");
   if (bar) {
     ScrollTrigger.create({
-      start: 0,
-      end: "max",
+      start: 0, end: "max",
       onUpdate: (self) => gsap.set(bar, { width: self.progress * 100 + "%" }),
     });
   }
 
-  // En reduced-motion : tout reste visible, on ne touche à rien d'autre.
+  // reduced-motion : tout reste visible, on ne crée aucune animation.
   if (reduce) return;
 
-  /* ---- HERO : au départ seule la photo, les infos arrivent AU SCROLL ----
-     Section épinglée + scrub. fromTo (destination explicite) pour révéler vraiment. */
+  /* ---- HERO : seule la photo au départ, les infos arrivent au scroll (pin + scrub) ---- */
   const hero = document.querySelector(".hero");
   if (hero) {
     const left = hero.querySelectorAll('[data-side="left"]');
     const right = hero.querySelectorAll('[data-side="right"]');
     const canvas = document.getElementById("heroCanvas");
-
     const tl = gsap.timeline({
       scrollTrigger: { trigger: hero, start: "top top", end: "+=130%", pin: true, scrub: 1, anticipatePin: 1 },
     });
@@ -35,17 +35,12 @@ export function initScrollReveals({ gsap, ScrollTrigger, reduce }) {
     tl.fromTo(right, { x: 120, autoAlpha: 0 }, { x: 0, autoAlpha: 1, ease: "expo.out", duration: 0.5, stagger: 0.1 }, 0.18);
   }
 
-  /* ---- Ancre IA : section épinglée, les cartes se révèlent au scroll ---- */
-  const ai = document.querySelector("#ai");
-  const aiCards = ai ? ai.querySelectorAll(".ai__card") : [];
-  if (ai && aiCards.length) {
-    gsap.set(aiCards, { autoAlpha: 0, y: 80, rotationX: -25, transformOrigin: "50% 100%" });
-    gsap.timeline({
-      scrollTrigger: { trigger: ai, start: "top top", end: "+=130%", pin: true, scrub: 1, anticipatePin: 1 },
-    }).to(aiCards, { autoAlpha: 1, y: 0, rotationX: 0, stagger: 0.5, ease: "power2.out" });
-  }
+  /* ============================================================
+     Reveals via IntersectionObserver (robustes)
+     ============================================================ */
+  const DIRS = { up: { y: 70 }, down: { y: -70 }, left: { x: -100 }, right: { x: 100 } };
 
-  /* ---- Titres mot par mot (.reveal-words) ---- */
+  // Découpe des titres en mots (typographie qui se construit)
   document.querySelectorAll(".reveal-words").forEach((el) => {
     const words = el.textContent.trim().split(/\s+/);
     el.textContent = "";
@@ -61,73 +56,51 @@ export function initScrollReveals({ gsap, ScrollTrigger, reduce }) {
       if (i < words.length - 1) el.appendChild(document.createTextNode(" "));
       inners.push(inner);
     });
-    // typographie cinétique : chaque mot se construit par une bascule 3D
-    gsap.set(inners, { yPercent: 120, rotationX: -90, transformOrigin: "50% 0%" });
-    ScrollTrigger.create({
-      trigger: el,
-      start: "top 85%",
-      once: true,
-      onEnter: () => gsap.to(inners, { yPercent: 0, rotationX: 0, duration: 1.1, ease: "power4.out", stagger: 0.07 }),
-    });
+    gsap.set(inners, { yPercent: 115 });
+    el._reveal = () => gsap.to(inners, { yPercent: 0, duration: 0.9, ease: "power4.out", stagger: 0.06 });
   });
 
-  /* ---- Apparitions génériques (.reveal-up) en batch ---- */
-  const ups = gsap.utils.toArray(".reveal-up");
-  gsap.set(ups, { y: 64, autoAlpha: 0 });
-  ScrollTrigger.batch(ups, {
-    start: "top 90%",
-    onEnter: (batch) =>
-      gsap.to(batch, {
-        y: 0, autoAlpha: 1, duration: 1.1, ease: "power4.out", stagger: 0.1, overwrite: true,
-        onComplete: () => gsap.set(batch, { clearProps: "transform" }), // libère le transform (survol CSS)
-      }),
+  // Apparitions simples (.reveal-up)
+  document.querySelectorAll(".reveal-up").forEach((el) => {
+    gsap.set(el, { y: 60, autoAlpha: 0 });
+    el._reveal = () => gsap.to(el, { y: 0, autoAlpha: 1, duration: 1, ease: "power3.out", onComplete: () => gsap.set(el, { clearProps: "transform" }) });
   });
 
-  /* ---- Apparitions directionnelles : .r-up / .r-down / .r-left / .r-right ---- */
-  const DIRS = { up: { y: 80 }, down: { y: -80 }, left: { x: -110 }, right: { x: 110 } };
+  // Apparitions directionnelles (.r-up / .r-down / .r-left / .r-right)
   Object.keys(DIRS).forEach((dir) => {
-    gsap.utils.toArray(".r-" + dir).forEach((el) => {
-      gsap.fromTo(
-        el,
-        { ...DIRS[dir], autoAlpha: 0 },
-        {
-          x: 0, y: 0, autoAlpha: 1, duration: 1.1, ease: "power4.out",
-          scrollTrigger: { trigger: el, start: "top 88%", once: true },
-          onComplete: () => gsap.set(el, { clearProps: "transform" }),
-        }
-      );
+    document.querySelectorAll(".r-" + dir).forEach((el) => {
+      gsap.set(el, { ...DIRS[dir], autoAlpha: 0 });
+      el._reveal = () => gsap.to(el, { x: 0, y: 0, autoAlpha: 1, duration: 1.1, ease: "power4.out", onComplete: () => gsap.set(el, { clearProps: "transform" }) });
     });
   });
 
-  /* ---- Parallax léger ([data-parallax]) ---- */
+  // Apparitions en cascade ([data-stagger] anime ses enfants)
+  document.querySelectorAll("[data-stagger]").forEach((group) => {
+    const kids = gsap.utils.toArray(group.children);
+    gsap.set(kids, { y: 50, autoAlpha: 0 });
+    group._reveal = () => gsap.to(kids, { y: 0, autoAlpha: 1, duration: 1, ease: "power3.out", stagger: 0.12, onComplete: () => gsap.set(kids, { clearProps: "transform" }) });
+  });
+
+  // Un seul observer pour tout : déclenche dès que l'élément est réellement visible
+  const io = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        if (entry.target._reveal) entry.target._reveal();
+        io.unobserve(entry.target);
+      });
+    },
+    { threshold: 0.12, rootMargin: "0px 0px -6% 0px" }
+  );
+  document.querySelectorAll(".reveal-words, .reveal-up, .r-up, .r-down, .r-left, .r-right, [data-stagger]")
+    .forEach((el) => io.observe(el));
+
+  /* ---- Parallax léger ([data-parallax]) — ne masque rien ---- */
   gsap.utils.toArray("[data-parallax]").forEach((el) => {
     const amount = parseFloat(el.dataset.parallax) || 60;
-    gsap.fromTo(
-      el,
-      { y: -amount * 0.5 },
-      {
-        y: amount * 0.5,
-        ease: "none",
-        scrollTrigger: { trigger: el, start: "top bottom", end: "bottom top", scrub: true },
-      }
-    );
-  });
-
-  /* ---- Apparitions en cascade : [data-stagger] anime ses enfants ---- */
-  gsap.utils.toArray("[data-stagger]").forEach((group) => {
-    const kids = gsap.utils.toArray(group.children);
-    gsap.set(kids, { y: 52, autoAlpha: 0 });
-    ScrollTrigger.create({
-      trigger: group,
-      start: "top 85%",
-      once: true,
-      onEnter: () =>
-        gsap.to(kids, {
-          y: 0, autoAlpha: 1, duration: 1, ease: "power3.out", stagger: 0.12,
-          onComplete: () => gsap.set(kids, { clearProps: "transform" }),
-        }),
+    gsap.fromTo(el, { y: -amount * 0.5 }, {
+      y: amount * 0.5, ease: "none",
+      scrollTrigger: { trigger: el, start: "top bottom", end: "bottom top", scrub: true },
     });
   });
-
-  ScrollTrigger.refresh();
 }
