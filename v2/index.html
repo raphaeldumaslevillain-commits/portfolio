@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Raphaël Dumas Levillain — Designer graphique. V2 : manifeste éditorial & 3D générative WebGL." />
+  <title>Raphaël Dumas Levillain — ORGANISME (V2)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@300;400;500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://esm.sh/three@0.160.0",
+      "gsap": "https://esm.sh/gsap@3.13.0",
+      "gsap/ScrollTrigger": "https://esm.sh/gsap@3.13.0/ScrollTrigger",
+      "gsap/SplitText": "https://esm.sh/gsap@3.13.0/SplitText",
+      "lenis": "https://esm.sh/lenis@1.1.20",
+      "postprocessing": "https://esm.sh/postprocessing@6.36.4?deps=three@0.160.0",
+      "simplex-noise": "https://esm.sh/simplex-noise@4.0.1"
+    }
+  }
+  </script>
+  <script>
+    // anti-flash : masque les éléments animés seulement si les animations sont permises
+    if (!matchMedia("(prefers-reduced-motion: reduce)").matches) document.documentElement.classList.add("anim");
+  </script>
+</head>
+<body>
+  <!-- Scène 3D plein écran -->
+  <div class="gl" id="gl" aria-hidden="true"></div>
+
+  <div class="cursor" id="cursor" aria-hidden="true"></div>
+
+  <div class="preloader" id="preloader"><span>RDL</span><em>v2 — organisme</em></div>
+
+  <!-- Aperçu flottant (survol des projets) -->
+  <div class="preview" id="preview" aria-hidden="true"><img alt="" /></div>
+
+  <header class="nav">
+    <a href="#top" class="nav__logo">RDL<span>©</span></a>
+    <nav class="nav__links">
+      <a href="#work">01 / Travaux</a>
+      <a href="#skills">02 / Savoir-faire</a>
+      <a href="#about">03 / Profil</a>
+      <a href="#contact">04 / Contact</a>
+    </nav>
+    <a href="../" class="nav__v1" title="Voir la V1">V1 →</a>
+    <button class="nav__burger" id="burger" aria-label="Menu"><span></span><span></span></button>
+  </header>
+
+  <main id="top">
+    <!-- HERO -->
+    <section class="hero">
+      <p class="hero__meta" data-reveal>Designer graphique · Branding · Packaging · Digital · UX/UI — 5 ans d'alternance</p>
+      <h1 class="hero__title" data-split="hero">Raphaël Dumas Levillain</h1>
+      <div class="hero__foot">
+        <p data-reveal>Je façonne des <strong>systèmes visuels</strong>, du print à l'écran.</p>
+        <a href="#work" class="scrollcue" data-reveal><span>Faire défiler</span><i></i></a>
+      </div>
+    </section>
+
+    <!-- MANIFESTO -->
+    <section class="manifesto">
+      <p class="manifesto__text" data-split>Transformer des idées en expériences visuelles mémorables. Une culture graphique affirmée, une vision 360° de la chaîne — et l'intelligence artificielle au cœur du process.</p>
+    </section>
+
+    <!-- WORK -->
+    <section class="work" id="work">
+      <header class="sec__head">
+        <span class="sec__idx" data-reveal>01 — Travaux sélectionnés</span>
+        <h2 class="sec__title" data-split>Selected Work</h2>
+      </header>
+      <ul class="work__list">
+        <li class="work__row" tabindex="0" data-img="portrait.png" data-reveal>
+          <span class="work__no">00</span>
+          <a href="#contact" class="work__title">Moki!</a>
+          <span class="work__meta">Branding · Packaging · 3D · CV-objet</span>
+        </li>
+        <li class="work__row" tabindex="0" data-img="astranova.jpg" data-reveal>
+          <span class="work__no">01</span>
+          <a href="#contact" class="work__title">Astranova</a>
+          <span class="work__meta">Stand · Scénographie</span>
+        </li>
+        <li class="work__row" tabindex="0" data-img="stand.png" data-reveal>
+          <span class="work__no">02</span>
+          <a href="#contact" class="work__title">Bréard × Guerlain</a>
+          <span class="work__meta">Stand modulaire · Premium</span>
+        </li>
+        <li class="work__row" tabindex="0" data-img="stihl.jpg" data-reveal>
+          <span class="work__no">03</span>
+          <a href="#contact" class="work__title">STIHL</a>
+          <span class="work__meta">PLV nationale · 400+ points de vente</span>
+        </li>
+        <li class="work__row" tabindex="0" data-img="covering.jpg" data-reveal>
+          <span class="work__no">04</span>
+          <a href="#contact" class="work__title">Renault Labeda</a>
+          <span class="work__meta">Covering · Clio Cup 2026</span>
+        </li>
+        <li class="work__row" tabindex="0" data-img="site.png" data-reveal>
+          <span class="work__no">05</span>
+          <a href="#contact" class="work__title">Izakaya</a>
+          <span class="work__meta">Rebranding · Site web · UX/UI</span>
+        </li>
+      </ul>
+    </section>
+
+    <!-- SKILLS -->
+    <section class="skills" id="skills">
+      <header class="sec__head">
+        <span class="sec__idx" data-reveal>02 — Savoir-faire</span>
+        <h2 class="sec__title" data-split>Capabilities</h2>
+      </header>
+      <div class="skills__grid">
+        <div class="skills__col" data-reveal>
+          <h3>Création</h3>
+          <p>Branding · Direction artistique · Identité visuelle · Packaging · Communication visuelle · Motion Design · UX/UI Design</p>
+        </div>
+        <div class="skills__col" data-reveal>
+          <h3>Outils</h3>
+          <p>Photoshop · Illustrator · InDesign · After Effects · Premiere Pro · Figma</p>
+        </div>
+        <div class="skills__col" data-reveal>
+          <h3>Innovation</h3>
+          <p>Intelligence artificielle · Automatisation des workflows · Prompt engineering · Optimisation des process créatifs</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section class="about" id="about">
+      <header class="sec__head">
+        <span class="sec__idx" data-reveal>03 — Profil</span>
+        <h2 class="sec__title" data-split>Confiant, et d'autant plus attentif au détail.</h2>
+      </header>
+      <div class="about__body">
+        <p data-reveal>Mon parcours commence dans l'impression et la production graphique — là où chaque détail technique compte. J'ai élargi vers le branding, le packaging, le digital, l'UX et l'intégration de l'IA dans la création.</p>
+        <p data-reveal>Un profil qui maîtrise aussi bien les enjeux artistiques que les contraintes techniques. À 5 ans d'alternance, le plus excitant est devant moi. <strong>Et, soyons honnêtes : disponible pour une alternance.</strong></p>
+        <ul class="about__stats" data-reveal>
+          <li><b>5</b> ans d'alternance</li>
+          <li><b>20+</b> projets réalisés</li>
+          <li><b>360°</b> vision de la chaîne</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section class="contact" id="contact">
+      <span class="sec__idx" data-reveal>04 — Contact</span>
+      <a class="contact__mail" data-split href="mailto:raphael.dumaslevillain@gmail.com">Travaillons ensemble</a>
+      <p class="contact__sub" data-reveal>raphael.dumaslevillain@gmail.com — Rouen · Normandie · <strong>Disponible pour une alternance</strong></p>
+    </section>
+
+    <footer class="footer">
+      <span>© <span id="year"></span> Raphaël Dumas Levillain</span>
+      <span>ORGANISME — V2 · WebGL / GLSL</span>
+    </footer>
+  </main>
+
+  <script type="module" src="main.js"></script>
+  <script>
+    // filet de sécurité : si un module/CDN échoue, on révèle quand même le contenu
+    setTimeout(function () { if (!document.documentElement.classList.contains("app-ready")) document.documentElement.classList.remove("anim"); }, 6000);
+  </script>
+</body>
+</html>
