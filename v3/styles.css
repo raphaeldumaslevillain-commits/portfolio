@@ -570,3 +570,55 @@ a.contact__card:hover .contact__card-arrow { transform: translate(3px, -3px); }
   background: linear-gradient(rgba(5,5,10,0.34), rgba(5,5,10,0.46));
 }
 
+
+/* ============================================================
+   V3 — Ajustements (boîte, parcours, contact, hero)
+   ============================================================ */
+
+/* Boîte Moki : plus grosse, ~moitié gauche, fond transparent */
+.box__grid { grid-template-columns: 1fr 1fr; gap: clamp(2rem, 4vw, 4rem); }
+.box-stage { aspect-ratio: auto; min-height: clamp(440px, 70vh, 800px); background: transparent; border: none; }
+@media (max-width: 960px) { .box__grid { grid-template-columns: 1fr; } .box-stage { min-height: 58vh; } }
+
+/* Parcours : descriptions lisibles (étaient trop sombres) */
+.timeline__item p { color: #d9d9e2; }
+
+/* Contact — carte "Disponibilité" : mise en évidence + survol 3D / lumineux */
+.contact__cards { perspective: 1100px; }
+.contact__card--highlight {
+  background: linear-gradient(160deg, color-mix(in srgb, var(--accent) 20%, transparent), color-mix(in srgb, var(--accent) 4%, transparent));
+  border-color: color-mix(in srgb, var(--accent) 55%, transparent);
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--accent) 25%, transparent), 0 18px 44px rgba(0,0,0,0.45);
+  transform-style: preserve-3d; overflow: hidden;
+  transition: transform .45s var(--ease), box-shadow .45s, border-color .45s;
+}
+.contact__card--highlight::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none; opacity: 0;
+  background: linear-gradient(120deg, transparent 35%, color-mix(in srgb, var(--accent) 55%, transparent) 60%, transparent 80%);
+  mix-blend-mode: screen; transition: opacity .45s;
+}
+.contact__card--highlight:hover {
+  transform: translateY(-10px) rotateX(9deg) rotateY(-7deg) scale(1.04);
+  box-shadow: 0 36px 80px color-mix(in srgb, var(--accent) 32%, transparent);
+  border-color: var(--accent);
+}
+.contact__card--highlight:hover::after { opacity: 1; }
+.contact__card--highlight .contact__card-value strong { color: var(--accent); }
+
+/* Contact — bouton mail : balayage lumineux (sheen) au lieu du remplissage plein bleu */
+.contact__email { overflow: hidden; transform-style: preserve-3d; }
+.contact__email::before {
+  content: ""; position: absolute; top: 0; left: -70%; width: 55%; height: 100%; inset: auto;
+  background: linear-gradient(120deg, transparent, color-mix(in srgb, var(--accent) 60%, transparent), transparent);
+  transform: skewX(-18deg); opacity: 0; z-index: 0; pointer-events: none;
+}
+.contact__email:hover { transform: translateY(-3px) scale(1.02); border-color: var(--accent); box-shadow: 0 20px 50px color-mix(in srgb, var(--accent) 22%, transparent); }
+.contact__email:hover::before { opacity: 1; animation: v3sheen .85s var(--ease) forwards; }
+@keyframes v3sheen { from { left: -70%; } to { left: 130%; } }
+.contact__email:hover .contact__email-label { color: var(--muted); }
+.contact__email:hover .contact__email-value { color: var(--accent); letter-spacing: .015em; }
+
+/* Hero : profondeur 3D + halo (la nouvelle entrée est pilotée dans scroll-reveals.js) */
+.hero__overlay { perspective: 1200px; }
+.hero__overlay [data-side] { transform-style: preserve-3d; }
+.hero__name { text-shadow: 0 0 60px color-mix(in srgb, var(--accent) 28%, transparent); }

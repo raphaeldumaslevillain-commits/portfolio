@@ -20,19 +20,24 @@ export function initScrollReveals({ gsap, ScrollTrigger, reduce }) {
   // reduced-motion : tout reste visible, on ne crée aucune animation.
   if (reduce) return;
 
-  /* ---- HERO : seule la photo au départ, les infos arrivent au scroll (pin + scrub) ---- */
+  /* ---- HERO : seule la photo au départ, les infos se CONSTRUISENT EN 3D au scroll ----
+     Chaque bloc se déplie depuis la profondeur (rotateX + translateZ) avec un halo,
+     piloté par le scroll (pin + scrub) -> le texte apparaît bien avec le défilement. */
   const hero = document.querySelector(".hero");
   if (hero) {
-    const left = hero.querySelectorAll('[data-side="left"]');
-    const right = hero.querySelectorAll('[data-side="right"]');
+    const els = hero.querySelectorAll("[data-side]");
     const canvas = document.getElementById("heroCanvas");
     const tl = gsap.timeline({
-      scrollTrigger: { trigger: hero, start: "top top", end: "+=130%", pin: true, scrub: 1, anticipatePin: 1 },
+      scrollTrigger: { trigger: hero, start: "top top", end: "+=140%", pin: true, scrub: 1, anticipatePin: 1 },
     });
-    if (canvas) tl.fromTo(canvas, { scale: 1 }, { scale: 1.12, ease: "none" }, 0);
+    if (canvas) tl.fromTo(canvas, { scale: 1 }, { scale: 1.14, ease: "none" }, 0);
     tl.to(".hero__scroll", { autoAlpha: 0, duration: 0.12 }, 0);
-    tl.fromTo(left, { x: -120, autoAlpha: 0 }, { x: 0, autoAlpha: 1, ease: "expo.out", duration: 0.5, stagger: 0.1 }, 0.12);
-    tl.fromTo(right, { x: 120, autoAlpha: 0 }, { x: 0, autoAlpha: 1, ease: "expo.out", duration: 0.5, stagger: 0.1 }, 0.18);
+    tl.fromTo(
+      els,
+      { rotationX: -90, z: -240, yPercent: 70, autoAlpha: 0, transformOrigin: "50% 100%" },
+      { rotationX: 0, z: 0, yPercent: 0, autoAlpha: 1, ease: "power3.out", duration: 0.6, stagger: 0.09 },
+      0.1
+    );
   }
 
   /* ============================================================
