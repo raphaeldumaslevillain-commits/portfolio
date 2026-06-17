@@ -75,10 +75,13 @@ rotation au clic-glisser, zoom à la molette, pas d'auto-rotation.
 index.html         Structure + importmap (Three.js, GSAP, ScrollTrigger, Flip, Lenis)
 styles.css         Design, mise en page, animations
 main.js            Orchestrateur : Lenis (smooth scroll) + GSAP + UI (curseur, nav, compteurs)
-hero-shader.js     Portrait plein écran, effet liquide WebGL (Three.js, shader GLSL)
+hero-shader.js     Hero "verre liquide" WebGL : nappe qui suit le curseur (réfraction,
+                   chromatique, spéculaire, Fresnel) et se résorbe à l'arrêt. Shader GLSL.
 box.js             Boîte de macarons 3D Moki! (Three.js + OrbitControls)
-background-3d.js   Fond 3D global : particules + objet filaire qui tourne au scroll
-theme.js           Direction artistique par section (accent + teinte + couleur 3D)
+world.js           "Travelling caméra" : couloir 3D continu, 1 salle par section,
+                   caméra pilotée par le scroll, brume/lumière interpolées, objet
+                   persistant qui change de matière (fil conducteur entre les mondes)
+theme.js           Direction artistique DOM par section (accent + teinte + motifs)
 projects-deck.js   Deck de cartes : dépliage au scroll (pin/scrub) + plein écran via GSAP Flip
 scroll-reveals.js  Reveals au scroll (GSAP ScrollTrigger), reveal du hero, parallax, progression
 ```
