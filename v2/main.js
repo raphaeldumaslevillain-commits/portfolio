@@ -28,9 +28,15 @@ function goTo(hash) {
   lenis ? lenis.scrollTo(el) : el.scrollIntoView({ behavior: "smooth" });
 }
 
-/* ---------- Scène 3D + lien au scroll ---------- */
+/* ---------- Scène 3D + lien au scroll (isolée : ne casse pas le reste) ---------- */
 const gl = document.getElementById("gl");
-const scene = gl ? initScene(gl) : null;
+let scene = null;
+try {
+  scene = gl ? initScene(gl) : null;
+} catch (err) {
+  console.warn("[v2] Scène WebGL indisponible :", err);
+  gl && gl.classList.add("no-webgl");
+}
 if (scene) {
   ScrollTrigger.create({ start: 0, end: "max", onUpdate: (self) => scene.setScroll(self.progress) });
 }
