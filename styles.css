@@ -511,8 +511,9 @@ a.contact__card:hover .contact__card-arrow { transform: translate(3px, -3px); }
 .anim [data-side] { opacity: 0; }
 .anim .r-up, .anim .r-down, .anim .r-left, .anim .r-right { opacity: 0; }
 .anim [data-stagger] > * { opacity: 0; }
+.reveal-words { perspective: 800px; }
 .reveal-words .word { display: inline-block; overflow: hidden; }
-.reveal-words .word-inner { display: inline-block; will-change: transform; }
+.reveal-words .word-inner { display: inline-block; will-change: transform; transform-style: preserve-3d; }
 
 /* ---------- Survols accentués (direction artistique) ---------- */
 .deck__card { transition: border-color .4s, box-shadow .4s; }

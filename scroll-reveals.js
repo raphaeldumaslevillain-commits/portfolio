@@ -51,12 +51,13 @@ export function initScrollReveals({ gsap, ScrollTrigger, reduce }) {
       if (i < words.length - 1) el.appendChild(document.createTextNode(" "));
       inners.push(inner);
     });
-    gsap.set(inners, { yPercent: 110 });
+    // typographie cinétique : chaque mot se construit par une bascule 3D
+    gsap.set(inners, { yPercent: 120, rotationX: -90, transformOrigin: "50% 0%" });
     ScrollTrigger.create({
       trigger: el,
       start: "top 85%",
       once: true,
-      onEnter: () => gsap.to(inners, { yPercent: 0, duration: 0.9, ease: "power4.out", stagger: 0.05 }),
+      onEnter: () => gsap.to(inners, { yPercent: 0, rotationX: 0, duration: 1.1, ease: "power4.out", stagger: 0.07 }),
     });
   });
 
