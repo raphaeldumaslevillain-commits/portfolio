@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Raphaël Dumas Levillain · Designer graphique spécialisé en branding, packaging, communication visuelle, design digital et UX/UI. 5 ans d'expérience en alternance." />
+  <title>Raphaël Dumas Levillain · Designer Graphique</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@300;400;500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+      "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/",
+      "gsap": "https://esm.sh/gsap@3.12.5",
+      "gsap/ScrollTrigger": "https://esm.sh/gsap@3.12.5/ScrollTrigger",
+      "gsap/Flip": "https://esm.sh/gsap@3.12.5/Flip",
+      "lenis": "https://esm.sh/lenis@1.1.14",
+      "postprocessing": "https://esm.sh/postprocessing@6.36.4?external=three",
+      "simplex-noise": "https://esm.sh/simplex-noise@4.0.1"
+    }
+  }
+  </script>
+  <script>
+    // Évite le flash de contenu : masque les éléments animés uniquement si les animations sont permises.
+    if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      document.documentElement.classList.add("anim");
+    }
+  </script>
+</head>
+<body>
+  <!-- Fonds : dégradé d'ambiance + décor 3D (palette unique) -->
+  <div class="bg-grad" aria-hidden="true"></div>
+  <div class="bg3d" id="bg3d" aria-hidden="true"></div>
+
+  <!-- Custom cursor -->
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-dot" id="cursorDot"></div>
+
+  <!-- Progress bar -->
+  <div class="scroll-progress" id="scrollProgress"></div>
+
+  <!-- Preloader -->
+  <div class="preloader" id="preloader">
+    <div class="preloader__inner">
+      <span class="preloader__name">RDL</span>
+      <div class="preloader__bar"><span></span></div>
+    </div>
+  </div>
+
+  <!-- Navigation -->
+  <header class="nav" id="nav">
+    <a href="#hero" class="nav__logo" data-cursor="hover">
+      <span>RDL</span>
+    </a>
+    <nav class="nav__links">
+      <a href="#projects" data-cursor="hover">Projets</a>
+      <a href="#about" data-cursor="hover">À propos</a>
+      <a href="#skills" data-cursor="hover">Compétences</a>
+      <a href="#ai" data-cursor="hover">IA</a>
+      <a href="#journey" data-cursor="hover">Parcours</a>
+    </nav>
+    <a href="#contact" class="nav__cta" data-cursor="hover">Me contacter</a>
+    <button class="nav__burger" id="burger" aria-label="Menu">
+      <span></span><span></span>
+    </button>
+  </header>
+
+  <!-- Mobile menu -->
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#projects">Projets</a>
+    <a href="#about">À propos</a>
+    <a href="#skills">Compétences</a>
+    <a href="#ai">IA</a>
+    <a href="#journey">Parcours</a>
+    <a href="#contact">Contact</a>
+  </div>
+
+  <main>
+    <!-- HERO plein écran (portrait + shader liquide) -->
+    <section class="hero" id="hero">
+      <div class="hero__canvas" id="heroCanvas"></div>
+      <img class="hero__fallback" src="portrait.png" alt="Raphaël Dumas Levillain, designer graphique" />
+      <div class="hero__veil"></div>
+
+      <div class="hero__overlay">
+        <p class="hero__kicker" data-side="left">Designer graphique · Branding · Digital · UX/UI</p>
+
+        <h1 class="hero__name">
+          <span class="hero__name-line" data-side="left">Raphaël</span>
+          <span class="hero__name-line hero__name-line--outline" data-side="right">Dumas Levillain</span>
+        </h1>
+
+        <div class="hero__rotator" data-side="left">
+          <span class="hero__rotator-static">Je transforme</span>
+          <span class="hero__rotator-words" id="rotator">
+            <span>des idées</span>
+            <span>des marques</span>
+            <span>des espaces</span>
+            <span>des interfaces</span>
+          </span>
+          <span class="hero__rotator-static">en expériences mémorables.</span>
+        </div>
+
+        <p class="hero__subline" data-side="right">5 ans d'alternance, une vraie culture graphique et la conviction qu'on n'a jamais fini d'apprendre. Assez sûr de moi pour livrer, assez curieux pour progresser. Et, soyons honnêtes, <strong>disponible pour une alternance</strong>.</p>
+
+        <div class="hero__meta">
+          <span class="hero__meta-item" data-side="left">5 ans d'alternance</span>
+          <span class="hero__meta-item" data-side="right">Vision 360°</span>
+          <span class="hero__meta-item hero__meta-item--hl" data-side="left">Disponible pour une alternance</span>
+        </div>
+
+        <div class="hero__actions" data-side="left">
+          <a href="#projects" class="btn btn--primary magnetic" data-cursor="hover">
+            <span>Découvrir mes projets</span>
+            <svg viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+          <a href="#contact" class="btn btn--ghost magnetic" data-cursor="hover">
+            <span>Me contacter</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="hero__scroll">
+        <span>Scroll</span>
+        <div class="hero__scroll-line"></div>
+      </div>
+    </section>
+
+    <!-- MARQUEE -->
+    <div class="marquee" aria-hidden="true">
+      <div class="marquee__track">
+        <span>Branding</span><span>✦</span><span>Packaging</span><span>✦</span><span>Communication visuelle</span><span>✦</span><span>Design Digital</span><span>✦</span><span>UX / UI</span><span>✦</span><span>Direction artistique</span><span>✦</span><span>Motion Design</span><span>✦</span>
+        <span>Branding</span><span>✦</span><span>Packaging</span><span>✦</span><span>Communication visuelle</span><span>✦</span><span>Design Digital</span><span>✦</span><span>UX / UI</span><span>✦</span><span>Direction artistique</span><span>✦</span><span>Motion Design</span><span>✦</span>
+      </div>
+    </div>
+
+    <!-- BOÎTE 3D "MOKI!" (projet phare) -->
+    <section class="box" id="box">
+      <div class="section__head">
+        <span class="section__tag reveal-up">01 · Projet phare</span>
+        <h2 class="section__title reveal-words">Moki!, la boîte de macarons qui sert de CV.</h2>
+      </div>
+
+      <div class="box__grid">
+        <div class="box__viewer" data-parallax="40">
+          <div class="box-stage" id="boxStage" data-lenis-prevent>
+            <div class="box-loader" id="boxLoader"><span></span><span></span><span></span></div>
+          </div>
+          <span class="box-hint">
+            <svg viewBox="0 0 24 24" fill="none" width="16" height="16"><path d="M4 12a8 8 0 1 1 8 8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M12 20l-3-2m3 2l3-2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Cliquez et glissez pour tourner · molette pour zoomer
+          </span>
+        </div>
+        <div class="box__info">
+          <span class="box__badge">Projet personnel</span>
+          <div class="box__detail reveal-up">
+            <p><strong>Contexte.</strong> J'ai imaginé <strong>Moki!</strong>, une fausse marque de macarons dont le packaging fait office de CV. Je remets cette boîte aux recruteurs en main propre.</p>
+            <p><strong>Objectifs.</strong> Sortir du CV papier classique, démontrer ma maîtrise du branding et du packaging, et créer un objet mémorable qui raconte mon parcours.</p>
+            <p><strong>Réalisations.</strong> Identité de marque, design du packaging et déclinaison de chaque face de la boîte en support de présentation (parcours, compétences, contact).</p>
+            <p><strong>Compétences.</strong> Branding · Packaging · Concept créatif · Direction artistique.</p>
+          </div>
+          <p class="box__tip reveal-up">Tournez la boîte 3D pour explorer chaque face.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- DECK PROJETS -->
+    <section class="deck" id="projects">
+      <div class="deck__viewport">
+        <div class="section__head deck__head">
+          <span class="section__tag reveal-up">02 · Projets</span>
+          <h2 class="section__title reveal-words">Ne partez pas, ça ne fait que commencer.</h2>
+        </div>
+        <div class="deck__stage" id="deckStage"></div>
+      </div>
+    </section>
+
+    <!-- KEY FIGURES -->
+    <section class="stats" id="stats" data-stagger>
+      <div class="stat">
+        <span class="stat__num" data-count="5">0</span>
+        <span class="stat__suffix">ans</span>
+        <p class="stat__label">d'expérience en alternance</p>
+      </div>
+      <div class="stat">
+        <span class="stat__num" data-count="20">0</span>
+        <span class="stat__suffix">+</span>
+        <p class="stat__label">projets professionnels réalisés</p>
+      </div>
+      <div class="stat">
+        <span class="stat__num">360°</span>
+        <p class="stat__label">vision de la chaîne graphique</p>
+      </div>
+      <div class="stat">
+        <span class="stat__num stat__num--small">Print · Digital<br>Packaging · UX/UI</span>
+        <p class="stat__label">domaines d'expertise</p>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section class="about" id="about">
+      <div class="section__head">
+        <span class="section__tag reveal-up">03 · À propos</span>
+        <h2 class="section__title reveal-words">Confiant dans mon travail, exigeant dans son exécution, et suffisamment curieux pour toujours chercher à aller plus loin.</h2>
+      </div>
+
+      <div class="about__grid">
+        <div class="about__text">
+          <p class="reveal-up">Mon parcours commence dans l'univers de <strong>l'impression et de la production graphique</strong>, là où chaque détail technique compte. Cette base m'a donné une compréhension rare de la chaîne complète, de la conception jusqu'à la réalisation.</p>
+          <p class="reveal-up">J'ai ensuite élargi mon expertise vers le <strong>branding</strong>, le <strong>packaging</strong>, la <strong>communication visuelle</strong>, le <strong>design digital</strong> et <strong>l'expérience utilisateur</strong>, jusqu'à intégrer <strong>l'intelligence artificielle</strong> dans mes processus créatifs.</p>
+          <p class="reveal-up">Je sais ce que je vaux : un profil qui maîtrise aussi bien les <strong>enjeux artistiques</strong> que les <strong>contraintes techniques</strong>, avec une vision 360° de la communication visuelle. Et je sais aussi qu'à 5 ans d'alternance, le plus excitant est <strong>devant moi</strong>&nbsp;: chaque projet est une occasion d'apprendre.</p>
+          <p class="reveal-up about__aside">(Et puis, je vous l'ai dit&nbsp;? Je suis <strong>disponible pour une alternance</strong>.)</p>
+        </div>
+        <div class="about__pillars">
+          <h3 class="about__pillars-title">Mes atouts</h3>
+          <ul class="about__pillars-list" data-stagger>
+            <li class="about__pillar" data-cursor="hover"><span>↗</span> Vision globale de la chaîne de production</li>
+            <li class="about__pillar" data-cursor="hover"><span>↗</span> Forte culture graphique</li>
+            <li class="about__pillar" data-cursor="hover"><span>↗</span> De la conception à la réalisation</li>
+            <li class="about__pillar" data-cursor="hover"><span>↗</span> Passionné par l'innovation & l'IA</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- SKILLS -->
+    <section class="skills" id="skills">
+      <div class="section__head">
+        <span class="section__tag reveal-up">04 · Compétences</span>
+        <h2 class="section__title reveal-words">Création, outils & innovation.</h2>
+      </div>
+
+      <div class="skills__grid" data-stagger>
+        <div class="skills__col">
+          <h3 class="skills__col-title">Création</h3>
+          <ul>
+            <li data-cursor="hover">Branding</li>
+            <li data-cursor="hover">Direction artistique</li>
+            <li data-cursor="hover">Identité visuelle</li>
+            <li data-cursor="hover">Packaging</li>
+            <li data-cursor="hover">Communication visuelle</li>
+            <li data-cursor="hover">Motion Design</li>
+            <li data-cursor="hover">UX / UI Design</li>
+          </ul>
+        </div>
+        <div class="skills__col">
+          <h3 class="skills__col-title">Outils</h3>
+          <ul>
+            <li data-cursor="hover">Photoshop</li>
+            <li data-cursor="hover">Illustrator</li>
+            <li data-cursor="hover">InDesign</li>
+            <li data-cursor="hover">After Effects</li>
+            <li data-cursor="hover">Premiere Pro</li>
+            <li data-cursor="hover">Figma</li>
+          </ul>
+        </div>
+        <div class="skills__col">
+          <h3 class="skills__col-title">Innovation</h3>
+          <ul>
+            <li data-cursor="hover">Intelligence artificielle</li>
+            <li data-cursor="hover">Automatisation des workflows</li>
+            <li data-cursor="hover">Prompt Engineering</li>
+            <li data-cursor="hover">Optimisation des processus créatifs</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- AI SECTION -->
+    <section class="ai" id="ai">
+      <div class="ai__glow"></div>
+      <div class="section__head">
+        <span class="section__tag reveal-up">05 · Intelligence Artificielle</span>
+        <h2 class="section__title reveal-words">Acteur de la transformation des métiers créatifs.</h2>
+      </div>
+
+      <p class="ai__lead reveal-up">Je ne suis pas seulement graphiste : j'intègre l'intelligence artificielle au cœur de mes processus pour créer plus vite, mieux, et plus loin.</p>
+
+      <div class="ai__cards" data-stagger>
+        <div class="ai__card" data-cursor="hover">
+          <span class="ai__card-num">01</span>
+          <h3>Automatisation</h3>
+          <p>Automatisation des tâches répétitives pour libérer du temps créatif.</p>
+        </div>
+        <div class="ai__card" data-cursor="hover">
+          <span class="ai__card-num">02</span>
+          <h3>Accélération</h3>
+          <p>Accélération des processus créatifs, de l'idée à la maquette.</p>
+        </div>
+        <div class="ai__card" data-cursor="hover">
+          <span class="ai__card-num">03</span>
+          <h3>Génération d'idées</h3>
+          <p>Exploration et génération d'idées pour nourrir la création.</p>
+        </div>
+        <div class="ai__card" data-cursor="hover">
+          <span class="ai__card-num">04</span>
+          <h3>Production optimisée</h3>
+          <p>Optimisation de la production graphique et fiabilisation des livrables.</p>
+        </div>
+        <div class="ai__card" data-cursor="hover">
+          <span class="ai__card-num">05</span>
+          <h3>Méthodes modernes</h3>
+          <p>Modernisation des méthodes de travail et des workflows créatifs.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- JOURNEY / TIMELINE -->
+    <section class="journey" id="journey">
+      <div class="section__head">
+        <span class="section__tag reveal-up">06 · Parcours</span>
+        <h2 class="section__title reveal-words">Une progression continue.</h2>
+      </div>
+
+      <div class="timeline" data-stagger>
+        <div class="timeline__item" data-cursor="hover">
+          <span class="timeline__dot"></span>
+          <h3>Bac Pro RPIP</h3>
+          <p>Réalisation de produits imprimés et plurimédia, les fondations de la production graphique.</p>
+        </div>
+        <div class="timeline__item" data-cursor="hover">
+          <span class="timeline__dot"></span>
+          <h3>BTS ERPC</h3>
+          <p>Études et réalisation d'un projet de communication, la vision globale de la chaîne graphique.</p>
+        </div>
+        <div class="timeline__item" data-cursor="hover">
+          <span class="timeline__dot"></span>
+          <h3>Alternance · Imprimerie IROPA</h3>
+          <p>Immersion dans la production et l'impression, au plus près des contraintes techniques.</p>
+        </div>
+        <div class="timeline__item" data-cursor="hover">
+          <span class="timeline__dot"></span>
+          <h3>Alternance · Groupe Bréard</h3>
+          <p>Projets print, PLV et communication visuelle à grande échelle pour des marques majeures.</p>
+        </div>
+        <div class="timeline__item" data-cursor="hover">
+          <span class="timeline__dot timeline__dot--active"></span>
+          <h3>Admission à l'IIM Digital School</h3>
+          <p>Cap vers le digital, l'UX/UI et l'innovation au service de la création.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section class="contact" id="contact">
+      <div class="contact__inner">
+        <span class="section__tag reveal-up">07 · Contact</span>
+        <h2 class="contact__title reveal-words">Travaillons ensemble.</h2>
+        <p class="contact__lead reveal-up">Branding, packaging, communication visuelle, design digital&nbsp;? J'ai hâte de m'y mettre. Un petit message et je vous réponds vite, avec le sourire.</p>
+
+        <a href="mailto:raphael.dumaslevillain@gmail.com?subject=Contact%20portfolio%20-%20Alternance&amp;body=Bonjour%20Rapha%C3%ABl%2C%0A%0A" class="contact__email reveal-up magnetic" data-cursor="hover">
+          <span class="contact__email-label">Mon adresse email</span>
+          <span class="contact__email-value">raphael.dumaslevillain@gmail.com</span>
+        </a>
+
+        <div class="contact__cards" data-stagger>
+          <div class="contact__card">
+            <span class="contact__card-label">Localisation</span>
+            <span class="contact__card-value">Rouen · Normandie<br>France</span>
+          </div>
+          <div class="contact__card contact__card--highlight">
+            <span class="contact__card-label">Disponibilité</span>
+            <span class="contact__card-value"><strong>Disponible pour<br>une alternance</strong></span>
+          </div>
+          <div class="contact__card">
+            <span class="contact__card-label">Délai de réponse</span>
+            <span class="contact__card-value">Sous 24&nbsp;h<br>(souvent bien moins)</span>
+          </div>
+        </div>
+
+        <p class="contact__gag reveal-up">Au fait, je vous l'ai dit&nbsp;? Je suis <strong>disponible pour une alternance</strong>. 😉</p>
+      </div>
+      <footer class="footer" data-stagger>
+        <span>© <span id="year"></span> Raphaël Dumas Levillain</span>
+        <span>Designer graphique · Branding · Digital · UX/UI</span>
+      </footer>
+    </section>
+  </main>
+
+  <!-- Vue plein écran des projets (hors de <main> pour rester au-dessus de la nav) -->
+  <div class="detail-layer" id="detailLayer" aria-hidden="true"></div>
+
+  <script type="module" src="main.js"></script>
+  <script>
+    // Filet de sécurité : si les modules/CDN n'ont pas pu s'initialiser, on révèle quand même le contenu.
+    setTimeout(function () {
+      if (!document.documentElement.classList.contains("app-ready")) {
+        document.documentElement.classList.remove("anim");
+      }
+    }, 6000);
+  </script>
+</body>
+</html>
