@@ -43,7 +43,8 @@ export function initBox() {
   controls.dampingFactor = 0.08;
   controls.autoRotate = false;
   controls.enablePan = false;
-  controls.enableZoom = false; // plus de zoom à la molette (le scroll reste libre)
+  controls.minDistance = 14;
+  controls.maxDistance = 60;
 
   const loader = new THREE.TextureLoader();
   let pending = 0;
@@ -90,19 +91,6 @@ export function initBox() {
   box.rotation.y = -0.6;
   box.rotation.x = 0.15;
 
-  /* ---- Effet "loupe" : survol immobile ~1 s -> la boîte se rapproche pour
-     voir les détails ; retour à la normale quand la souris quitte la zone. ---- */
-  let targetScale = 1;
-  let hoverTimer = 0;
-  stage.addEventListener("pointerenter", () => {
-    clearTimeout(hoverTimer);
-    hoverTimer = setTimeout(() => { targetScale = 1.55; }, 1000);
-  });
-  stage.addEventListener("pointerleave", () => {
-    clearTimeout(hoverTimer);
-    targetScale = 1;
-  });
-
   function hideLoader() {
     if (loaderEl) loaderEl.style.display = "none";
     if (hadError && !stage.querySelector(".box-warn")) {
@@ -126,8 +114,6 @@ export function initBox() {
   function animate() {
     if (!visible) return;
     requestAnimationFrame(animate);
-    // loupe : interpolation douce de l'échelle vers la cible
-    box.scale.lerp(new THREE.Vector3(targetScale, targetScale, targetScale), 0.12);
     controls.update();
     renderer.render(scene, camera);
   }
