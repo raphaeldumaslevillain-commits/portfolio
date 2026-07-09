@@ -20,15 +20,8 @@ export function initScrollReveals({ gsap, ScrollTrigger, reduce }) {
   // reduced-motion : tout reste visible, on ne crée aucune animation.
   if (reduce) return;
 
-  /* ---- HERO épuré : révélation élégante au chargement (masque + fondu), sans pin ---- */
-  const hero = document.querySelector(".hero");
-  if (hero) {
-    gsap.set(".hero__name-inner", { yPercent: 110 });
-    gsap.set(".hero__fade", { y: 26, autoAlpha: 0 });
-    gsap.timeline({ delay: 0.4, defaults: { ease: "power4.out" } })
-      .to(".hero__name-inner", { yPercent: 0, duration: 1.1, stagger: 0.14 }, 0)
-      .to(".hero__fade", { y: 0, autoAlpha: 1, duration: 0.9, stagger: 0.12 }, 0.4);
-  }
+  /* ---- HERO : la révélation est 100% CSS (voir styles.css @keyframes heroRise/heroFade)
+     -> le texte s'affiche TOUJOURS, même si un module 3D échoue à l'init. ---- */
 
   /* ============================================================
      Reveals via IntersectionObserver (robustes)

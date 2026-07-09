@@ -148,8 +148,9 @@ if (window.matchMedia("(hover: hover)").matches && !reduce) {
 }
 
 /* ---------- Lancement des modules ---------- */
-initWorld();
-initBox();
+/* Les inits 3D sont isolées : un échec WebGL ne doit JAMAIS bloquer le contenu/texte. */
+try { initWorld(); } catch (e) { console.warn("[v3] fond 3D indisponible :", e); }
+try { initBox(); } catch (e) { console.warn("[v3] boîte 3D indisponible :", e); }
 initScrollReveals({ gsap, ScrollTrigger, reduce });
 initProjectsDeck({ gsap, ScrollTrigger, Flip, lenis, reduce });
 
