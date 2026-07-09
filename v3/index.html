@@ -79,53 +79,21 @@
   </div>
 
   <main>
-    <!-- HERO plein écran (portrait + shader liquide) -->
+    <!-- HERO — épuré : la sphère 3D du fond EST le cœur du hero (plus de photo) -->
     <section class="hero" id="hero">
-      <div class="hero__canvas" id="heroCanvas"></div>
-      <img class="hero__fallback" src="portrait.png" alt="Raphaël Dumas Levillain, designer graphique" />
-      <div class="hero__veil"></div>
-
       <div class="hero__overlay">
-        <p class="hero__kicker" data-side="left">Designer graphique · Branding · Digital · UX/UI</p>
+        <p class="hero__kicker hero__fade">Designer graphique — Branding · Packaging · Digital · UX/UI</p>
 
-        <h1 class="hero__name">
-          <span class="hero__name-line" data-side="left">Raphaël</span>
-          <span class="hero__name-line hero__name-line--outline" data-side="right">Dumas Levillain</span>
-        </h1>
-
-        <div class="hero__rotator" data-side="left">
-          <span class="hero__rotator-static">Je transforme</span>
-          <span class="hero__rotator-words" id="rotator">
-            <span>des idées</span>
-            <span>des marques</span>
-            <span>des espaces</span>
-            <span>des interfaces</span>
-          </span>
-          <span class="hero__rotator-static">en expériences mémorables.</span>
+        <div class="hero__bottom">
+          <h1 class="hero__name">
+            <span class="hero__name-line"><span class="hero__name-inner">Raphaël</span></span>
+            <span class="hero__name-line hero__name-line--outline"><span class="hero__name-inner">Dumas Levillain</span></span>
+          </h1>
+          <div class="hero__row">
+            <p class="hero__tagline hero__fade">Je transforme des idées en expériences visuelles mémorables.</p>
+            <a href="#projects" class="hero__scroll hero__fade" data-cursor="hover"><span>Défiler</span><i></i></a>
+          </div>
         </div>
-
-        <p class="hero__subline" data-side="right">5 ans d'alternance, une vraie culture graphique et la conviction qu'on n'a jamais fini d'apprendre. Assez sûr de moi pour livrer, assez curieux pour progresser. Et, soyons honnêtes, <strong>disponible pour une alternance</strong>.</p>
-
-        <div class="hero__meta">
-          <span class="hero__meta-item" data-side="left">5 ans d'alternance</span>
-          <span class="hero__meta-item" data-side="right">Vision 360°</span>
-          <span class="hero__meta-item hero__meta-item--hl" data-side="left">Disponible pour une alternance</span>
-        </div>
-
-        <div class="hero__actions" data-side="left">
-          <a href="#projects" class="btn btn--primary magnetic" data-cursor="hover">
-            <span>Découvrir mes projets</span>
-            <svg viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </a>
-          <a href="#contact" class="btn btn--ghost magnetic" data-cursor="hover">
-            <span>Me contacter</span>
-          </a>
-        </div>
-      </div>
-
-      <div class="hero__scroll">
-        <span>Scroll</span>
-        <div class="hero__scroll-line"></div>
       </div>
     </section>
 

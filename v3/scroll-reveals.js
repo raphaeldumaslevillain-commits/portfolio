@@ -20,24 +20,14 @@ export function initScrollReveals({ gsap, ScrollTrigger, reduce }) {
   // reduced-motion : tout reste visible, on ne crée aucune animation.
   if (reduce) return;
 
-  /* ---- HERO : seule la photo au départ, les infos se CONSTRUISENT EN 3D au scroll ----
-     Chaque bloc se déplie depuis la profondeur (rotateX + translateZ) avec un halo,
-     piloté par le scroll (pin + scrub) -> le texte apparaît bien avec le défilement. */
+  /* ---- HERO épuré : révélation élégante au chargement (masque + fondu), sans pin ---- */
   const hero = document.querySelector(".hero");
   if (hero) {
-    const els = hero.querySelectorAll("[data-side]");
-    const canvas = document.getElementById("heroCanvas");
-    const tl = gsap.timeline({
-      scrollTrigger: { trigger: hero, start: "top top", end: "+=140%", pin: true, scrub: 1, anticipatePin: 1 },
-    });
-    if (canvas) tl.fromTo(canvas, { scale: 1 }, { scale: 1.14, ease: "none" }, 0);
-    tl.to(".hero__scroll", { autoAlpha: 0, duration: 0.12 }, 0);
-    tl.fromTo(
-      els,
-      { rotationX: -90, z: -240, yPercent: 70, autoAlpha: 0, transformOrigin: "50% 100%" },
-      { rotationX: 0, z: 0, yPercent: 0, autoAlpha: 1, ease: "power3.out", duration: 0.6, stagger: 0.09 },
-      0.1
-    );
+    gsap.set(".hero__name-inner", { yPercent: 110 });
+    gsap.set(".hero__fade", { y: 26, autoAlpha: 0 });
+    gsap.timeline({ delay: 0.4, defaults: { ease: "power4.out" } })
+      .to(".hero__name-inner", { yPercent: 0, duration: 1.1, stagger: 0.14 }, 0)
+      .to(".hero__fade", { y: 0, autoAlpha: 1, duration: 0.9, stagger: 0.12 }, 0.4);
   }
 
   /* ============================================================

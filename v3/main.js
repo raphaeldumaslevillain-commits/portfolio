@@ -6,7 +6,6 @@ import ScrollTrigger from "gsap/ScrollTrigger";
 import Flip from "gsap/Flip";
 import Lenis from "lenis";
 
-import { initHeroShader } from "./hero-shader.js";
 import { initBox } from "./box.js";
 import { initScrollReveals } from "./scroll-reveals.js";
 import { initProjectsDeck } from "./projects-deck.js";
@@ -151,7 +150,6 @@ if (window.matchMedia("(hover: hover)").matches && !reduce) {
 /* ---------- Lancement des modules ---------- */
 initWorld();
 initBox();
-initHeroShader();
 initScrollReveals({ gsap, ScrollTrigger, reduce });
 initProjectsDeck({ gsap, ScrollTrigger, Flip, lenis, reduce });
 
