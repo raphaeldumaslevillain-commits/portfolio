@@ -20,20 +20,8 @@ export function initScrollReveals({ gsap, ScrollTrigger, reduce }) {
   // reduced-motion : tout reste visible, on ne crée aucune animation.
   if (reduce) return;
 
-  /* ---- HERO : seule la photo au départ, les infos arrivent au scroll (pin + scrub) ---- */
-  const hero = document.querySelector(".hero");
-  if (hero) {
-    const left = hero.querySelectorAll('[data-side="left"]');
-    const right = hero.querySelectorAll('[data-side="right"]');
-    const canvas = document.getElementById("heroCanvas");
-    const tl = gsap.timeline({
-      scrollTrigger: { trigger: hero, start: "top top", end: "+=130%", pin: true, scrub: 1, anticipatePin: 1 },
-    });
-    if (canvas) tl.fromTo(canvas, { scale: 1 }, { scale: 1.12, ease: "none" }, 0);
-    tl.to(".hero__scroll", { autoAlpha: 0, duration: 0.12 }, 0);
-    tl.fromTo(left, { x: -120, autoAlpha: 0 }, { x: 0, autoAlpha: 1, ease: "expo.out", duration: 0.5, stagger: 0.1 }, 0.12);
-    tl.fromTo(right, { x: 120, autoAlpha: 0 }, { x: 0, autoAlpha: 1, ease: "expo.out", duration: 0.5, stagger: 0.1 }, 0.18);
-  }
+  /* ---- HERO : la révélation est 100% CSS (voir styles.css @keyframes heroRise/heroFade)
+     -> le texte s'affiche TOUJOURS, même si un module 3D échoue à l'init. ---- */
 
   /* ============================================================
      Reveals via IntersectionObserver (robustes)

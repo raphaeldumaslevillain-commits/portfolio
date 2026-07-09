@@ -36,7 +36,7 @@ export function initBox() {
   stage.appendChild(renderer.domElement);
 
   const camera = new THREE.PerspectiveCamera(35, stage.clientWidth / stage.clientHeight, 0.1, 1000);
-  camera.position.set(22, 14, 28);
+  camera.position.set(16, 9, 20); // plus proche -> boîte plus grosse à l'écran
 
   const controls = new OrbitControls(camera, renderer.domElement);
   controls.enableDamping = true;

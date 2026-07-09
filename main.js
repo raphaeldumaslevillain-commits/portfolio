@@ -6,7 +6,6 @@ import ScrollTrigger from "gsap/ScrollTrigger";
 import Flip from "gsap/Flip";
 import Lenis from "lenis";
 
-import { initHeroShader } from "./hero-shader.js";
 import { initBox } from "./box.js";
 import { initScrollReveals } from "./scroll-reveals.js";
 import { initProjectsDeck } from "./projects-deck.js";
@@ -149,9 +148,9 @@ if (window.matchMedia("(hover: hover)").matches && !reduce) {
 }
 
 /* ---------- Lancement des modules ---------- */
-initWorld();
-initBox();
-initHeroShader();
+/* Les inits 3D sont isolées : un échec WebGL ne doit JAMAIS bloquer le contenu/texte. */
+try { initWorld(); } catch (e) { console.warn("[v3] fond 3D indisponible :", e); }
+try { initBox(); } catch (e) { console.warn("[v3] boîte 3D indisponible :", e); }
 initScrollReveals({ gsap, ScrollTrigger, reduce });
 initProjectsDeck({ gsap, ScrollTrigger, Flip, lenis, reduce });
 
