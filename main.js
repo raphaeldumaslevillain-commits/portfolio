@@ -147,6 +147,21 @@ if (window.matchMedia("(hover: hover)").matches && !reduce) {
   });
 }
 
+/* ---------- Hero : le nom suit doucement la souris (parallax subtil) ---------- */
+if (window.matchMedia("(hover: hover)").matches && !reduce) {
+  const name = document.getElementById("heroName");
+  if (name) {
+    window.addEventListener("mousemove", (e) => {
+      gsap.to(name, {
+        x: (e.clientX / window.innerWidth - 0.5) * 18,
+        y: (e.clientY / window.innerHeight - 0.5) * 12,
+        duration: 0.9,
+        ease: "power3.out",
+      });
+    });
+  }
+}
+
 /* ---------- Lancement des modules ---------- */
 /* Les inits 3D sont isolées : un échec WebGL ne doit JAMAIS bloquer le contenu/texte. */
 try { initWorld(); } catch (e) { console.warn("[v3] fond 3D indisponible :", e); }
